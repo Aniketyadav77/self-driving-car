@@ -1,11 +1,65 @@
+<?php
+include "config.php";
+$csrf_token = generate_csrf_token();
+
+$errors = [];
+$success_message = '';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Verify CSRF token
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        $errors[] = "Invalid request. Please try again.";
+    } else {
+        // Validate and process form
+        $fname = sanitize_input($_POST['fname'] ?? '');
+        $email = sanitize_input($_POST['email'] ?? '');
+        $phone = sanitize_input($_POST['phone'] ?? '');
+        
+        // Validation
+        if (empty($fname)) {
+            $errors[] = "First name is required";
+        }
+        if (!validate_email($email)) {
+            $errors[] = "Valid email is required";
+        }
+        if (!validate_phone($phone)) {
+            $errors[] = "Valid 10-digit phone number is required";
+        }
+        
+        if (empty($errors)) {
+            // Check if email already exists
+            $stmt = $mysqli->prepare("SELECT id FROM participants WHERE email = ?");
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            if ($result->num_rows > 0) {
+                $errors[] = "Email already registered";
+            } else {
+                // Insert new participant
+                $participant_id = 'ZEP' . strtoupper(substr(uniqid(), -6));
+                $stmt = $mysqli->prepare("INSERT INTO participants (participant_id, fname, email, phone, created_at) VALUES (?, ?, ?, ?, NOW())");
+                $stmt->bind_param("ssss", $participant_id, $fname, $email, $phone);
+                
+                if ($stmt->execute()) {
+                    $success_message = "Registration successful! Your ID: " . $participant_id;
+                } else {
+                    $errors[] = "Registration failed. Please try again.";
+                }
+            }
+        }
+    }
+}
+?>
+
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Registration form - Zephyr Fest</title>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -162,11 +216,31 @@
     <input type="button" name="sub" class="fadeIn fourth" onclick="window.location.href='mainpage.php'" value="Home">
     </div>
 </div>
-    <h1>Zephyr Participation Registration Form.</h1>
+    <h1>Zephyr Participation Registration Form</h1>
+    
     <div class="container">
-    <!-- form begins -->
-        <form action="" method="post">
-        <h1>Fill in the details to get your Zephyr participation Id</h1>
+        <!-- Display errors -->
+        <?php if (!empty($errors)): ?>
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    <?php foreach ($errors as $error): ?>
+                        <li><?php echo htmlspecialchars($error); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+        
+        <!-- Display success message -->
+        <?php if ($success_message): ?>
+            <div class="alert alert-success">
+                <?php echo htmlspecialchars($success_message); ?>
+            </div>
+        <?php endif; ?>
+        
+        <!-- Enhanced form with validation -->
+        <form action="" method="post" id="registrationForm" class="needs-validation" novalidate>
+            <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+            <h1>Fill in the details to get your Zephyr participation ID</h1>
 
 <div class="contentform">
 
@@ -174,24 +248,45 @@
         <div class="form-group">
             <p>First Name<span>*</span></p>
             <span class="icon-case"><i class="fa fa-male"></i></span>
-            <input type="text" name="fname" id="f-name" required />
-
+            <input type="text" name="fname" id="f-name" required 
+                   value="<?php echo isset($_POST['fname']) ? htmlspecialchars($_POST['fname']) : ''; ?>"
+                   pattern="[A-Za-z\s]{2,50}" title="First name should contain only letters and be 2-50 characters long" />
+            <div class="invalid-feedback">Please provide a valid first name.</div>
         </div>
+        
         <div class="form-group">
-            <p>Middle name <span></span></p>
+            <p>Middle name</p>
             <span class="icon-case"><i class="fa fa-user"></i></span>
-            <input type="text" name="mname" id="m-name" />
+            <input type="text" name="mname" id="m-name" 
+                   value="<?php echo isset($_POST['mname']) ? htmlspecialchars($_POST['mname']) : ''; ?>"
+                   pattern="[A-Za-z\s]{0,50}" title="Middle name should contain only letters" />
         </div>
+        
         <div class="form-group">
-            <p>Last Name <span></span></p>
+            <p>Last Name</p>
             <span class="icon-case"><i class="fa fa-male"></i></span>
-            <input type="text" name="lname" id="l-name" />
+            <input type="text" name="lname" id="l-name" 
+                   value="<?php echo isset($_POST['lname']) ? htmlspecialchars($_POST['lname']) : ''; ?>"
+                   pattern="[A-Za-z\s]{2,50}" title="Last name should contain only letters and be 2-50 characters long" />
         </div>
 
         <div class="form-group">
             <p>E-mail <span>*</span></p>
-            <span class="icon-case"><i class="	fa fa-envelope-o"></i></span>
-            <input type="email" name="email" id="email" required />
+            <span class="icon-case"><i class="fa fa-envelope-o"></i></span>
+            <input type="email" name="email" id="email" required 
+                   value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"
+                   title="Please enter a valid email address" />
+            <div class="invalid-feedback">Please provide a valid email address.</div>
+        </div>
+
+        <div class="form-group">
+            <p>Phone Number <span>*</span></p>
+            <span class="icon-case"><i class="fa fa-phone"></i></span>
+            <input type="tel" name="phone" id="phone" required 
+                   value="<?php echo isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : ''; ?>"
+                   pattern="[0-9]{10}" title="Phone number should be exactly 10 digits" 
+                   placeholder="1234567890" />
+            <div class="invalid-feedback">Please provide a valid 10-digit phone number.</div>
         </div>
 
         
