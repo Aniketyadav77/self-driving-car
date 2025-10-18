@@ -2001,4 +2001,48 @@ body {
 
 
 
+/* ---------------- Glass UI additions ---------------- */
+:root{
+    --glass-bg: rgba(255,255,255,0.06);
+    --glass-border: rgba(255,255,255,0.12);
+    --glass-blur: 10px;
+    --accent: rgba(255,255,255,0.95);
+}
+
+body{
+    background: linear-gradient(135deg,#071226 0%, #07112a 60%);
+    color: var(--accent);
+}
+
+.container-center{max-width:1100px;margin:20px auto;padding:0 16px}
+
+.glass{
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.05) contrast(1.02);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.05) contrast(1.02);
+    border-radius: 12px;
+    padding: 18px;
+}
+
+.glass-card{padding:20px;margin-bottom:16px}
+
+.hero-content .entry-header h2{color:var(--accent)}
+
+/* make buttons and links visible on glass */
+.btn, a{color:var(--accent)}
+
+@media (max-width:768px){
+    .glass{padding:12px;border-radius:8px}
+}
+
+/* End Glass UI additions */
+
+
+
+
+
+
+
 

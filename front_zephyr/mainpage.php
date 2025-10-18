@@ -86,7 +86,7 @@ $qr=mysqli_query($mysqli,$qv);
     <!-- particles.js lib - https://github.com/VincentGarreau/particles.js -->
     <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
-    <div class="hero-content">
+  <div class="hero-content glass">
       <div class="container">
         <div class="row">
           <div class="col-12 offset-lg-2 col-lg-10">
