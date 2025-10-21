@@ -38,24 +38,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="modern-3d.css">
 
-    <title>Participant login</title>
-    <link rel="shortcut icon" type="image/x-icon" href="images/zephyr-logo.JPG">   <!-- icon shown on top of heading of admin page -->
+    <title>Participant Portal - Zephyr Gateway</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/zephyr-logo.JPG">
     <style>
-
-html {
-  
-  
-}
-
-body {
-  font-family: "Poppins", sans-serif;
-  height: 100vh;
-  background-image: url("images/blog-image-4.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
+        .participant-hero {
+            background: var(--gradient-dark);
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        
+        .participant-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(34, 197, 94, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            z-index: 1;
+        }
+        
+        .login-container-3d {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 3rem;
+            transform-style: preserve-3d;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 2;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.3),
+                0 12px 24px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .login-container-3d:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 
+                0 35px 70px rgba(0, 0, 0, 0.4),
+                0 16px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+        
+        .login-header-3d {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        
+        .login-title-3d {
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 4px 20px rgba(236, 72, 153, 0.3);
+        }
+        
+        .login-subtitle-3d {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .back-home-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .back-home-btn:hover {
+            background: var(--accent-orange);
+            color: white;
+            text-decoration: none;
+            transform: translateY(-2px);
+        }
 
 a {
   color: #92badd;
@@ -337,32 +419,71 @@ input[type=password]:placeholder {
     </style>
   </head>
   <body>
-  <div class="row">
-    <div class="col-sm-6" style="float: left">
-
-    <input type="button"name="sub" class="fadeIn fourth" onclick="window.location.href='mainpage.php'" value="Home">
-    </div>
+    <!-- Back to Home Button -->
+    <a href="mainpage.php" class="back-home-btn">
+        <i class="fas fa-arrow-left mr-2"></i>Back to Home
+    </a>
     
-<div class="wrapper fadeInDown">
-    <div id="formContent">
-      <!-- Tabs Titles -->
-  
-      <!-- ilove zephyr image -->
-      <div class="fadeIn first">
-        <img src="images/lovezephyr.jpg" id="icon" alt="User Icon" />
-      </div>
-  
-      <!-- Login Form -->
-      <form action="" method="POST">
-	  <h5>Participant Login Form</h5>
-        <input type="text" id="login" class="fadeIn second" name="user" placeholder="Participant Id">
-        <input type="password" id="password" class="fadeIn third" name="pw" placeholder="Password">
-        <input type="submit" name="sub" class="fadeIn fourth" value="Log In">
-		<h6>Dont have a participated Id?Not registered yet?<br>
-		<a href="participantformnew.php">Register Now!!!</a></h6>
-      </form>
+    <div class="participant-hero">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-7">
+                    <div class="login-container-3d floating-element">
+                        <div class="login-header-3d">
+                            <h1 class="login-title-3d">
+                                <i class="fas fa-user-astronaut mr-3"></i>Portal Access
+                            </h1>
+                            <p class="login-subtitle-3d">
+                                Welcome back, space explorer! Enter your credentials to continue your journey.
+                            </p>
+                        </div>
+                        
+                        <!-- Zephyr Brand Image -->
+                        <div class="text-center mb-4">
+                            <div class="brand-image-3d">
+                                <i class="fas fa-rocket" style="font-size: 4rem; color: var(--accent-orange); animation: pulse 2s infinite;"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- Login Form -->
+                        <form action="" method="POST">
+                            <div class="text-center mb-4">
+                                <h3 class="text-gradient mb-0">Participant Login</h3>
+                                <p class="text-secondary">Access your mission dashboard</p>
+                            </div>
+                            
+                            <div class="form-group-3d">
+                                <div class="form-input-icon">
+                                    <i class="fas fa-id-card"></i>
+                                </div>
+                                <input type="text" class="form-input-3d" name="user" 
+                                       placeholder="Enter your Participant ID" required>
+                            </div>
+                            
+                            <div class="form-group-3d">
+                                <div class="form-input-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <input type="password" class="form-input-3d" name="pw" 
+                                       placeholder="Enter your password" required>
+                            </div>
+                            
+                            <button type="submit" name="sub" class="submit-btn-3d mb-4">
+                                <i class="fas fa-rocket mr-2"></i>Launch Mission
+                            </button>
+                            
+                            <div class="text-center">
+                                <p class="text-secondary mb-2">Don't have a Participant ID yet?</p>
+                                <a href="participantformnew.php" class="nav-link-3d d-inline-block">
+                                    <i class="fas fa-user-plus mr-2"></i>Join the Adventure
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
   
 
     <!-- Optional JavaScript -->
