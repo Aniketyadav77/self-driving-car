@@ -432,67 +432,77 @@ $qr=mysqli_query($mysqli,$qv);
         <!-- col-12 -->
       </div>
       <!-- row -->
-<!-- sponsors begin -->
-      <div id="sponsor">
-      <div class="row">
-        <div class="col-12">
-          <div class="the-complete-lineup">
-            <div class="entry-title" style="margin-bottom: 40px; text-align: center;">
-              <p>Diamond</p>
-              <h2>SPONSORS</h2>
-            </div>
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-12 col-md-4">
-                  <div class="card">
-                    <img
-                      class="card-img-top"
-                      src="images/google.jpg"
-                      alt="Card image cap"
-                    />
-                    <div class="card-body">
-                      <p class="card-text">
-                        Some detailed text of sponsor.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-12 col-md-4">
-                  <div class="card">
-                    <img
-                      class="card-img-top"
-                      src="images/facebook.png"
-                      alt="Card image cap"
-                    />
-                    <div class="card-body">
-                      <p class="card-text">
-                        Some detailed text of sponsor.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-12 col-md-4">
-                  <div class="card">
-                    <img
-                      class="card-img-top"
-                      src="images/tesla.png"
-                      alt="Card image cap"
-                    />
-                    <div class="card-body">
-                      <p class="card-text">
-                        Some detailed text of sponsor.
-                      </p>
-                    </div>
-                  </div>
-                </div>
+<!-- Modern 3D Sponsors Section -->
+    <section id="sponsors" class="py-5" style="background: var(--gradient-dark); position: relative; overflow: hidden;">
+      <!-- Background Effects -->
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
+                  background: radial-gradient(circle at 30% 40%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                             radial-gradient(circle at 70% 60%, rgba(6, 182, 212, 0.1) 0%, transparent 50%); 
+                  z-index: 1;"></div>
+      
+      <div class="container" style="position: relative; z-index: 2;">
+        <!-- Section Header -->
+        <div class="text-center mb-5">
+          <p class="text-secondary text-uppercase letter-spacing mb-2 floating-element" style="animation-delay: 0.1s;">
+            <i class="fas fa-crown mr-2"></i>Diamond Partners
+          </p>
+          <h2 class="display-4 text-gradient mb-4 floating-element" style="animation-delay: 0.2s;">
+            COSMIC SPONSORS
+          </h2>
+          <p class="lead text-secondary mb-0 floating-element" style="animation-delay: 0.3s;">
+            Powering the future with visionary partnerships
+          </p>
+        </div>
+
+        <!-- Diamond Sponsors -->
+        <div class="row justify-content-center mb-5">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card-3d text-center floating-element sponsor-card-3d" style="animation-delay: 0.4s;">
+              <div class="sponsor-logo-container mb-4">
+                <img src="images/google.jpg" alt="Google" class="sponsor-logo-3d">
+              </div>
+              <h4 class="text-gradient mb-3">Google</h4>
+              <p class="text-secondary mb-3">
+                Empowering innovation and driving technological excellence in the digital frontier.
+              </p>
+              <div class="sponsor-tier-badge diamond-tier">
+                <i class="fas fa-gem mr-2"></i>Diamond Partner
               </div>
             </div>
-            <!-- entry-title -->
           </div>
-          <!-- the-complete-lineup -->
+          
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card-3d text-center floating-element sponsor-card-3d" style="animation-delay: 0.5s;">
+              <div class="sponsor-logo-container mb-4">
+                <img src="images/facebook.png" alt="Facebook" class="sponsor-logo-3d">
+              </div>
+              <h4 class="text-gradient mb-3">Meta</h4>
+              <p class="text-secondary mb-3">
+                Connecting communities and building the metaverse of tomorrow's experiences.
+              </p>
+              <div class="sponsor-tier-badge diamond-tier">
+                <i class="fas fa-gem mr-2"></i>Diamond Partner
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card-3d text-center floating-element sponsor-card-3d" style="animation-delay: 0.6s;">
+              <div class="sponsor-logo-container mb-4">
+                <img src="images/tesla.png" alt="Tesla" class="sponsor-logo-3d">
+              </div>
+              <h4 class="text-gradient mb-3">Tesla</h4>
+              <p class="text-secondary mb-3">
+                Accelerating sustainable transport and energy solutions for a better world.
+              </p>
+              <div class="sponsor-tier-badge diamond-tier">
+                <i class="fas fa-gem mr-2"></i>Diamond Partner
+              </div>
+            </div>
+          </div>
         </div>
-        <!-- col-12 -->
       </div>
+    </section>
       <div class="row">
         <div class="col-12">
           <div class="the-complete-lineup">
@@ -615,57 +625,168 @@ $qr=mysqli_query($mysqli,$qv);
     <!-- container -->
     <!-- sponsors end -->
 
-    <footer class="site-footer">
-      <div
-        class="footer-cover-title flex justify-content-center align-items-center"
-      >
-        <h2>ZEPHYR</h2>
+    <!-- Modern 3D Footer -->
+    <footer class="footer-3d">
+      <!-- Footer Hero Section -->
+      <div class="footer-hero-3d">
+        <div class="container">
+          <h1 class="footer-brand-3d floating-element">ZEPHYR</h1>
+          <p class="lead text-secondary mb-0">
+            Where innovation meets imagination in the cosmic dance of creativity
+          </p>
+        </div>
       </div>
 
-      <div class="footer-content-wrapper">
+      <!-- Footer Content -->
+      <div class="footer-content-3d">
         <div class="container">
           <div class="row">
-            <div class="col-12">
-              <div class="entry-title">
-                <a href="#">ZEPHYR</a>
-              </div>
-
-              <div class="entry-mail">
-                <a href="#">SAYHELLO@zephyr.COM</a>
-              </div>
-
-              <div class="copyright-info">
+            <!-- About Section -->
+            <div class="col-lg-4 col-md-6 footer-section-3d">
+              <h3 class="footer-title-3d">
+                <i class="fas fa-rocket mr-2"></i>About Zephyr
+              </h3>
+              <p class="text-secondary mb-4">
+                Experience the future of festival celebrations where technology, 
+                art, and creativity converge to create extraordinary moments that 
+                transcend the ordinary.
+              </p>
+              
+              <div class="footer-contact-3d">
+                <div class="contact-item-3d">
+                  <div class="contact-icon-3d">
+                    <i class="fas fa-envelope"></i>
+                  </div>
+                  <div class="contact-text-3d">
+                    <span class="contact-label-3d">Email Us</span>
+                    <span class="contact-value-3d">hello@zephyr.space</span>
+                  </div>
+                </div>
                 
-                <script>
-                  document.write(new Date().getFullYear());
-                </script>
+                <div class="contact-item-3d">
+                  <div class="contact-icon-3d">
+                    <i class="fas fa-map-marker-alt"></i>
+                  </div>
+                  <div class="contact-text-3d">
+                    <span class="contact-label-3d">Location</span>
+                    <span class="contact-value-3d">JNU School of Engineering</span>
+                  </div>
+                </div>
                 
-                <i class="fa fa-heart" aria-hidden="true"></i> by
-                <a href="mainpage.php" target="_blank">RITIKA and DANESHWARI</a>
+                <div class="contact-item-3d">
+                  <div class="contact-icon-3d">
+                    <i class="fas fa-phone"></i>
+                  </div>
+                  <div class="contact-text-3d">
+                    <span class="contact-label-3d">Mission Control</span>
+                    <span class="contact-value-3d">+91 XXX XXX XXXX</span>
+                  </div>
+                </div>
               </div>
+            </div>
 
-              <div class="footer-social">
-                <ul class="flex justify-content-center align-items-center">
-                  <li>
-                    <a href="#"><i class="fab fa-pinterest"></i></a>
-                  </li>
-                  <li>
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                  </li>
-                  <li>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                  </li>
-                  <li>
-                    <a href="#"><i class="fab fa-dribbble"></i></a>
-                  </li>
-                  <li>
-                    <a href="#"><i class="fab fa-behance"></i></a>
-                  </li>
-                  <li>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                  </li>
-                </ul>
+            <!-- Quick Links -->
+            <div class="col-lg-2 col-md-6 footer-section-3d">
+              <h3 class="footer-title-3d">
+                <i class="fas fa-link mr-2"></i>Quick Links
+              </h3>
+              <a href="mainpage.php" class="footer-link-3d">
+                <i class="fas fa-home mr-2"></i>Home Base
+              </a>
+              <a href="events.php" class="footer-link-3d">
+                <i class="fas fa-calendar-alt mr-2"></i>Events
+              </a>
+              <a href="participantformnew.php" class="footer-link-3d">
+                <i class="fas fa-user-plus mr-2"></i>Join Mission
+              </a>
+              <a href="admin_auth.php" class="footer-link-3d">
+                <i class="fas fa-cog mr-2"></i>Command Center
+              </a>
+            </div>
+
+            <!-- Festival Info -->
+            <div class="col-lg-3 col-md-6 footer-section-3d">
+              <h3 class="footer-title-3d">
+                <i class="fas fa-star mr-2"></i>Festival Hub
+              </h3>
+              <a href="#" class="footer-link-3d">
+                <i class="fas fa-trophy mr-2"></i>Competitions
+              </a>
+              <a href="#" class="footer-link-3d">
+                <i class="fas fa-music mr-2"></i>Performances
+              </a>
+              <a href="#" class="footer-link-3d">
+                <i class="fas fa-palette mr-2"></i>Art Gallery
+              </a>
+              <a href="#" class="footer-link-3d">
+                <i class="fas fa-gamepad mr-2"></i>Gaming Zone
+              </a>
+              <a href="#" class="footer-link-3d">
+                <i class="fas fa-flask mr-2"></i>Tech Expo
+              </a>
+            </div>
+
+            <!-- Social & Newsletter -->
+            <div class="col-lg-3 col-md-6 footer-section-3d">
+              <h3 class="footer-title-3d">
+                <i class="fas fa-globe mr-2"></i>Connect
+              </h3>
+              <p class="text-secondary mb-4">
+                Join our cosmic community and stay updated with the latest from the Zephyr universe.
+              </p>
+              
+              <div class="social-icons-3d mb-4">
+                <a href="#" class="social-icon-3d">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="social-icon-3d">
+                  <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="social-icon-3d">
+                  <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="social-icon-3d">
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#" class="social-icon-3d">
+                  <i class="fab fa-youtube"></i>
+                </a>
+                <a href="#" class="social-icon-3d">
+                  <i class="fab fa-discord"></i>
+                </a>
               </div>
+              
+              <div class="newsletter-3d">
+                <form class="d-flex">
+                  <input type="email" class="form-input-3d flex-fill" 
+                         placeholder="Enter your email for updates" 
+                         style="border-radius: 15px 0 0 15px; margin-bottom: 0;">
+                  <button type="submit" class="btn-modern" 
+                          style="border-radius: 0 15px 15px 0; padding: 0 20px;">
+                    <i class="fas fa-rocket"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copyright Section -->
+      <div class="footer-copyright-3d">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <p class="copyright-text-3d">
+                <script>document.write(new Date().getFullYear());</script>
+                © ZEPHYR Festival. All rights reserved.
+              </p>
+            </div>
+            <div class="col-md-6 text-md-right">
+              <p class="copyright-text-3d">
+                Crafted with <i class="fas fa-heart copyright-heart"></i> by 
+                <span class="text-gradient">Ritika & Daneshwari</span>
+              </p>
             </div>
           </div>
         </div>
