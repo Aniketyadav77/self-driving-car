@@ -1144,6 +1144,390 @@ $qr=mysqli_query($mysqli,$qv);
       img.lazy.loaded {
         opacity: 1;
       }
+      
+      /* Advanced Performance Animations */
+      .gpu-accelerated {
+        transform: translateZ(0);
+        will-change: transform;
+      }
+      
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      
+      .fade-in-up.animate {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      .scale-in {
+        opacity: 0;
+        transform: scale(0.8);
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      
+      .scale-in.animate {
+        opacity: 1;
+        transform: scale(1);
+      }
+      
+      .slide-in-left {
+        opacity: 0;
+        transform: translateX(-50px);
+        transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      
+      .slide-in-left.animate {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      
+      .slide-in-right {
+        opacity: 0;
+        transform: translateX(50px);
+        transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      
+      .slide-in-right.animate {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      
+      /* Stagger animation delays */
+      .stagger-1 { transition-delay: 0.1s; }
+      .stagger-2 { transition-delay: 0.2s; }
+      .stagger-3 { transition-delay: 0.3s; }
+      .stagger-4 { transition-delay: 0.4s; }
+      .stagger-5 { transition-delay: 0.5s; }
+      
+      /* Loading spinner for async operations */
+      .loading-spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--glass-border);
+        border-radius: 50%;
+        border-top-color: var(--accent-purple);
+        animation: spin 1s ease-in-out infinite;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      
+      /* Skeleton loading for cards */
+      .skeleton {
+        background: linear-gradient(90deg, var(--glass-bg) 25%, rgba(255,255,255,0.1) 50%, var(--glass-bg) 75%);
+        background-size: 400% 100%;
+        animation: loading 1.5s infinite;
+      }
+      
+      @keyframes loading {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+      }
     </style>
-  </body>
+
+    <!-- Performance Optimization Scripts -->
+    <script>
+      // Intersection Observer for scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+      
+      const animationObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate');
+            // Add GPU acceleration for better performance
+            entry.target.classList.add('gpu-accelerated');
+          }
+        });
+      }, observerOptions);
+      
+      // Observe all animation elements
+      document.addEventListener('DOMContentLoaded', () => {
+        const animatedElements = document.querySelectorAll(
+          '.fade-in-up, .scale-in, .slide-in-left, .slide-in-right'
+        );
+        animatedElements.forEach(el => animationObserver.observe(el));
+        
+        // Add animation classes to existing elements
+        $('.card-3d').addClass('fade-in-up');
+        $('.hero-title-3d').addClass('slide-in-left');
+        $('.hero-subtitle-3d').addClass('slide-in-right stagger-1');
+        $('.btn-modern').addClass('scale-in stagger-2');
+        $('.stat-item-3d').each(function(index) {
+          $(this).addClass(`fade-in-up stagger-${Math.min(index + 1, 5)}`);
+        });
+        
+        // Performance monitoring and optimization
+        let performanceMetrics = {
+          loadTime: 0,
+          renderTime: 0,
+          interactionTime: 0
+        };
+        
+        // Measure page load performance
+        window.addEventListener('load', () => {
+          if ('performance' in window) {
+            const navigation = performance.getEntriesByType('navigation')[0];
+            performanceMetrics.loadTime = navigation.loadEventEnd - navigation.loadEventStart;
+            performanceMetrics.renderTime = navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart;
+            
+            console.log('Performance Metrics:', performanceMetrics);
+            
+            // Optimize based on performance
+            if (performanceMetrics.loadTime > 3000) {
+              // Disable heavy animations on slow devices
+              document.body.classList.add('performance-mode');
+            }
+          }
+        });
+        
+        // Critical resource preloading
+        const criticalResources = [
+          { href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap', as: 'style' },
+          { href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css', as: 'style' }
+        ];
+        
+        criticalResources.forEach(resource => {
+          const link = document.createElement('link');
+          link.rel = 'preload';
+          link.href = resource.href;
+          link.as = resource.as;
+          document.head.appendChild(link);
+        });
+        
+        // Image lazy loading with blur-up effect
+        function enhancedLazyLoad() {
+          const lazyImages = document.querySelectorAll('img[data-src]');
+          
+          if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  const img = entry.target;
+                  const tempImg = new Image();
+                  
+                  tempImg.onload = () => {
+                    img.src = tempImg.src;
+                    img.classList.add('loaded');
+                  };
+                  
+                  tempImg.src = img.dataset.src;
+                  observer.unobserve(img);
+                }
+              });
+            });
+            
+            lazyImages.forEach(img => {
+              img.classList.add('lazy');
+              imageObserver.observe(img);
+            });
+          }
+        }
+        
+        // Debounce function for performance
+        function debounce(func, wait, immediate) {
+          let timeout;
+          return function executedFunction(...args) {
+            const later = () => {
+              timeout = null;
+              if (!immediate) func(...args);
+            };
+            const callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func(...args);
+          };
+        }
+        
+        // Throttle function for scroll events
+        function throttle(func, limit) {
+          let lastFunc;
+          let lastRan;
+          return function(...args) {
+            if (!lastRan) {
+              func(...args);
+              lastRan = Date.now();
+            } else {
+              clearTimeout(lastFunc);
+              lastFunc = setTimeout(() => {
+                if ((Date.now() - lastRan) >= limit) {
+                  func(...args);
+                  lastRan = Date.now();
+                }
+              }, limit - (Date.now() - lastRan));
+            }
+          };
+        }
+        
+        // Optimized scroll handler
+        const optimizedScrollHandler = throttle(() => {
+          // Parallax effects
+          const scrolled = window.pageYOffset;
+          const parallaxElements = document.querySelectorAll('.parallax');
+          
+          parallaxElements.forEach(element => {
+            const speed = element.dataset.speed || 0.5;
+            const yPos = -(scrolled * speed);
+            element.style.transform = `translateY(${yPos}px)`;
+          });
+          
+          // Update navigation active state
+          const sections = document.querySelectorAll('section[id]');
+          const navLinks = document.querySelectorAll('.nav-link-3d');
+          
+          sections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+            const isVisible = rect.top <= 100 && rect.bottom >= 100;
+            
+            if (isVisible) {
+              navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${section.id}`) {
+                  link.classList.add('active');
+                }
+              });
+            }
+          });
+        }, 16); // ~60fps
+        
+        window.addEventListener('scroll', optimizedScrollHandler);
+        
+        // Memory management for animations
+        const cleanupObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting && entry.target.classList.contains('animate')) {
+              // Remove GPU acceleration when element is out of view
+              entry.target.classList.remove('gpu-accelerated');
+            } else if (entry.isIntersecting && entry.target.classList.contains('animate')) {
+              // Re-add GPU acceleration when element comes into view
+              entry.target.classList.add('gpu-accelerated');
+            }
+          });
+        }, { threshold: 0 });
+        
+        // Observe all animated elements for cleanup
+        setTimeout(() => {
+          document.querySelectorAll('.animate').forEach(el => {
+            cleanupObserver.observe(el);
+          });
+        }, 1000);
+        
+        // Initialize enhanced features
+        enhancedLazyLoad();
+        
+        // Service Worker registration for caching
+        if ('serviceWorker' in navigator && 'production' === 'production') {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+              .then(registration => console.log('SW registered'))
+              .catch(registrationError => console.log('SW registration failed'));
+          });
+        }
+      });
+    </script>
+
+    <!-- Advanced Interactions Framework -->
+    <script src="js/advanced-interactions.js"></script>
+
+    <!-- Final Enhancement Scripts -->
+    <script>
+        // Initialize advanced UI components
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add magnetic effect to navigation items
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.add('magnetic');
+            });
+            
+            // Add tilt effect to feature cards
+            document.querySelectorAll('.card-3d').forEach(card => {
+                card.classList.add('tilt-effect');
+            });
+            
+            // Add ripple effect to buttons
+            document.querySelectorAll('.btn-3d').forEach(btn => {
+                btn.classList.add('ripple');
+            });
+            
+            // Enhanced scroll animations for sections
+            document.querySelectorAll('.hero-3d, .about-section, .features-section, .sponsors-section, .footer-3d').forEach(section => {
+                section.classList.add('scroll-reveal');
+            });
+            
+            // Staggered animations for feature items
+            const featuresContainer = document.querySelector('.features-section .row');
+            if (featuresContainer) {
+                featuresContainer.classList.add('stagger-children');
+                setTimeout(() => {
+                    featuresContainer.classList.add('animate');
+                }, 500);
+            }
+            
+            // Advanced particle system for hero
+            const heroSection = document.querySelector('.hero-3d');
+            if (heroSection) {
+                heroSection.classList.add('particles-efficient');
+            }
+            
+            // Performance monitoring
+            if (window.advancedUI) {
+                window.advancedUI.startPerformanceMonitoring();
+            }
+            
+            // Announcement for screen readers
+            setTimeout(() => {
+                if (window.advancedUI) {
+                    window.advancedUI.announce('Festival management system loaded with modern 3D interface');
+                }
+            }, 1000);
+        });
+        
+        // Advanced loading state
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+            
+            // Remove loading overlay if exists
+            const loader = document.querySelector('.loading-overlay');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.remove(), 500);
+            }
+        });
+        
+        // Preload critical resources for better performance
+        const preloadResources = [
+            'events.php',
+            'participantformnew.php',
+            'admin_dashboard.php'
+        ];
+        
+        preloadResources.forEach(url => {
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = url;
+            document.head.appendChild(link);
+        });
+        
+        // Advanced error handling
+        window.addEventListener('error', function(e) {
+            console.error('UI Error:', e.error);
+            if (window.advancedUI) {
+                window.advancedUI.announce('An error occurred. Please refresh the page if issues persist.');
+            }
+        });
+        
+        // Memory cleanup on page unload
+        window.addEventListener('beforeunload', function() {
+            if (window.advancedUI) {
+                window.advancedUI.destroy();
+            }
+        });
+    </script>
+</body>
 </html>
