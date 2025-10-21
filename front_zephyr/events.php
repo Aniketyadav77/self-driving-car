@@ -18,119 +18,339 @@ $csrf_token = generate_csrf_token();
     <title>Events - Zephyr Festival</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modern-3d.css">
     <style>
-        .events-hero {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8)), 
-                        url('images/events-bg.jpg') center/cover;
-            color: white;
-            padding: 100px 0;
+        .events-hero-3d {
+            background: var(--gradient-dark);
+            color: var(--text-primary);
+            padding: 150px 0 100px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
         
-        .event-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .events-hero-3d::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.1) 0%, transparent 70%);
+            animation: backgroundPulse 8s ease-in-out infinite;
         }
         
-        .event-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        @keyframes backgroundPulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
         }
         
-        .event-category {
-            display: inline-block;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
-        
-        .category-dance { background: linear-gradient(45deg, #ff6b6b, #ff8e8e); color: white; }
-        .category-music { background: linear-gradient(45deg, #4ecdc4, #7fdbda); color: white; }
-        .category-drama { background: linear-gradient(45deg, #45b7d1, #6cc7e8); color: white; }
-        .category-literary { background: linear-gradient(45deg, #f9ca24, #fdd835); color: white; }
-        .category-sports { background: linear-gradient(45deg, #6c5ce7, #a29bfe); color: white; }
-        .category-tech { background: linear-gradient(45deg, #fd79a8, #fdcb6e); color: white; }
-        
-        .event-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-        
-        .event-meta {
-            color: #7f8c8d;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
-        
-        .event-description {
-            color: #34495e;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        
-        .event-details {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .event-actions {
-            text-align: center;
-        }
-        
-        .btn-register {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            border: none;
+        .event-card-3d {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
             border-radius: 25px;
-            padding: 10px 30px;
-            font-weight: bold;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+        
+        .event-card-3d::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+        
+        .event-card-3d:hover {
+            transform: translateY(-15px) rotateX(5deg) scale(1.02);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .event-card-3d:hover::before {
+            opacity: 0.05;
+        }
+        
+        .event-card-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .event-category-3d {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            letter-spacing: 0.5px;
+        }
+        
+        .category-dance { 
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.8), rgba(255, 142, 142, 0.8)); 
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            color: #fff; 
+        }
+        .category-music { 
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.8), rgba(127, 219, 218, 0.8)); 
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            color: #fff; 
+        }
+        .category-drama { 
+            background: linear-gradient(135deg, rgba(69, 183, 209, 0.8), rgba(108, 199, 232, 0.8)); 
+            border: 1px solid rgba(69, 183, 209, 0.3);
+            color: #fff; 
+        }
+        .category-literary { 
+            background: linear-gradient(135deg, rgba(249, 202, 36, 0.8), rgba(253, 216, 53, 0.8)); 
+            border: 1px solid rgba(249, 202, 36, 0.3);
+            color: #fff; 
+        }
+        .category-sports { 
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.8), rgba(162, 155, 254, 0.8)); 
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            color: #fff; 
+        }
+        .category-tech { 
+            background: linear-gradient(135deg, rgba(253, 121, 168, 0.8), rgba(253, 203, 110, 0.8)); 
+            border: 1px solid rgba(253, 121, 168, 0.3);
+            color: #fff; 
+        }
+        
+        .event-title-3d {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .event-meta-3d {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .event-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .event-description-3d {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .event-details-3d {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .event-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 0.8rem;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
             transition: all 0.3s ease;
         }
         
-        .btn-register:hover {
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.1);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-            color: white;
         }
         
-        .filters {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+            margin-bottom: 0.3rem;
         }
         
-        .search-box {
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .event-actions-3d {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-register-3d {
+            padding: 0.8rem 2rem;
+            background: var(--gradient-primary);
+            border: none;
             border-radius: 25px;
-            border: 2px solid #e9ecef;
-            padding: 10px 20px;
+            color: var(--text-primary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
-        .search-box:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        .btn-register-3d::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-secondary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .btn-register-3d:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        
+        .btn-register-3d:hover::before {
+            opacity: 1;
+        }
+        
+        .btn-register-3d span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .filters-3d {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .search-box-3d {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid transparent;
+            border-radius: 15px;
+            padding: 1rem 1.5rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+        }
+        
+        .search-box-3d:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);
+            color: var(--text-primary);
+        }
+        
+        .search-box-3d::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .filter-title-3d {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .no-events-3d {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            backdrop-filter: blur(20px) saturate(180%);
+        }
+        
+        .no-events-icon {
+            font-size: 4rem;
+            color: var(--accent-purple);
+            margin-bottom: 1.5rem;
+            animation: pulse 2s ease-in-out infinite;
         }
         
         @media (max-width: 768px) {
-            .events-hero {
-                padding: 60px 0;
+            .events-hero-3d {
+                padding: 120px 0 80px;
             }
-            .event-card {
-                padding: 20px;
+            
+            .event-card-3d {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .event-card-3d:hover {
+                transform: translateY(-10px) scale(1.01);
+            }
+            
+            .event-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+            }
+            
+            .event-actions-3d {
+                flex-direction: column;
+            }
+            
+            .filters-3d {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -156,114 +376,160 @@ $csrf_token = generate_csrf_token();
         </div>
     </nav>
     
-    <!-- Hero Section -->
-    <section class="events-hero">
+    <!-- Modern 3D Hero Section -->
+    <section class="events-hero-3d">
         <div class="container">
-            <h1 class="display-4 mb-4">Festival Events</h1>
-            <p class="lead">Discover amazing events and showcase your talents at Zephyr Festival</p>
+            <div class="hero-content-3d floating-element">
+                <h1 class="hero-title-3d">
+                    <i class="fas fa-calendar-star mr-3"></i>Events Universe
+                </h1>
+                <p class="hero-subtitle-3d">
+                    Dive into a cosmic journey of creativity, innovation, and limitless possibilities
+                </p>
+            </div>
         </div>
     </section>
     
     <div class="container my-5">
-        <!-- Filters -->
-        <div class="filters">
+        <!-- Modern 3D Filters -->
+        <div class="filters-3d">
+            <h2 class="filter-title-3d">
+                <i class="fas fa-search mr-2"></i>Discover Your Perfect Event
+            </h2>
             <div class="row align-items-center">
-                <div class="col-md-6">
-                    <input type="text" id="searchEvents" class="form-control search-box" 
-                           placeholder="Search events...">
+                <div class="col-md-8">
+                    <div class="position-relative">
+                        <i class="fas fa-search position-absolute" 
+                           style="left: 1.5rem; top: 50%; transform: translateY(-50%); color: var(--accent-purple);"></i>
+                        <input type="text" id="searchEvents" class="form-control search-box-3d pl-5" 
+                               placeholder="Search by event name, description, or category...">
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <select id="categoryFilter" class="form-control search-box">
-                        <option value="">All Categories</option>
-                        <option value="dance">Dance</option>
-                        <option value="music">Music</option>
-                        <option value="drama">Drama</option>
-                        <option value="literary">Literary</option>
-                        <option value="sports">Sports</option>
-                        <option value="tech">Technology</option>
-                    </select>
+                <div class="col-md-4">
+                    <div class="position-relative">
+                        <i class="fas fa-filter position-absolute" 
+                           style="left: 1.5rem; top: 50%; transform: translateY(-50%); color: var(--accent-purple);"></i>
+                        <select id="categoryFilter" class="form-control search-box-3d pl-5">
+                            <option value="">All Categories</option>
+                            <option value="dance">🕺 Dance</option>
+                            <option value="music">🎵 Music</option>
+                            <option value="drama">🎭 Drama</option>
+                            <option value="literary">📚 Literary</option>
+                            <option value="sports">⚽ Sports</option>
+                            <option value="tech">💻 Technology</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
         
-        <!-- Events Grid -->
-        <div class="row" id="eventsContainer">
+        <!-- Modern 3D Events Grid -->
+        <div class="grid-3d grid-cols-2" id="eventsContainer">
             <?php if ($events_result && $events_result->num_rows > 0): ?>
+                <?php $delay = 0; ?>
                 <?php while ($event = $events_result->fetch_assoc()): ?>
-                    <div class="col-lg-6 event-item" data-category="<?php echo $event['category']; ?>">
-                        <div class="event-card">
-                            <div class="category-<?php echo $event['category']; ?> event-category">
-                                <?php echo ucfirst($event['category']); ?>
-                            </div>
-                            
-                            <h3 class="event-title"><?php echo htmlspecialchars($event['name']); ?></h3>
-                            
-                            <div class="event-meta">
-                                <i class="fas fa-calendar mr-2"></i>
-                                <?php echo date('M j, Y', strtotime($event['start_date'])); ?>
-                                <span class="mx-2">•</span>
-                                <i class="fas fa-clock mr-2"></i>
-                                <?php echo date('g:i A', strtotime($event['start_date'])); ?>
-                                <?php if ($event['venue']): ?>
-                                    <span class="mx-2">•</span>
-                                    <i class="fas fa-map-marker-alt mr-2"></i>
-                                    <?php echo htmlspecialchars($event['venue']); ?>
-                                <?php endif; ?>
-                            </div>
-                            
-                            <div class="event-description">
-                                <?php echo nl2br(htmlspecialchars(substr($event['description'], 0, 200))); ?>
-                                <?php if (strlen($event['description']) > 200): ?>
-                                    <span class="text-muted">...</span>
-                                <?php endif; ?>
-                            </div>
-                            
-                            <div class="event-details">
-                                <div class="row text-center">
-                                    <?php if ($event['max_participants']): ?>
-                                        <div class="col-4">
-                                            <strong>Max Participants</strong><br>
-                                            <span class="text-primary"><?php echo $event['max_participants']; ?></span>
+                    <div class="event-item floating-element" data-category="<?php echo $event['category']; ?>" 
+                         style="animation-delay: <?php echo $delay * 0.1; ?>s;">
+                        <div class="event-card-3d">
+                            <div class="event-card-content">
+                                <div class="category-<?php echo $event['category']; ?> event-category-3d">
+                                    <i class="fas fa-star mr-2"></i>
+                                    <?php echo ucfirst($event['category']); ?>
+                                </div>
+                                
+                                <h3 class="event-title-3d"><?php echo htmlspecialchars($event['name']); ?></h3>
+                                
+                                <div class="event-meta-3d">
+                                    <div class="event-meta-item">
+                                        <i class="fas fa-calendar text-primary"></i>
+                                        <span><?php echo date('M j, Y', strtotime($event['start_date'])); ?></span>
+                                    </div>
+                                    <div class="event-meta-item">
+                                        <i class="fas fa-clock text-cyan"></i>
+                                        <span><?php echo date('g:i A', strtotime($event['start_date'])); ?></span>
+                                    </div>
+                                    <?php if ($event['venue']): ?>
+                                        <div class="event-meta-item">
+                                            <i class="fas fa-map-marker-alt text-pink"></i>
+                                            <span><?php echo htmlspecialchars($event['venue']); ?></span>
                                         </div>
                                     <?php endif; ?>
-                                    <div class="col-4">
-                                        <strong>Registration Fee</strong><br>
-                                        <span class="text-success">
-                                            <?php echo $event['registration_fee'] > 0 ? '₹' . $event['registration_fee'] : 'Free'; ?>
-                                        </span>
-                                    </div>
-                                    <div class="col-4">
-                                        <strong>Deadline</strong><br>
-                                        <span class="text-warning">
-                                            <?php echo date('M j', strtotime($event['registration_deadline'])); ?>
-                                        </span>
+                                </div>
+                                
+                                <div class="event-description-3d">
+                                    <?php echo nl2br(htmlspecialchars(substr($event['description'], 0, 150))); ?>
+                                    <?php if (strlen($event['description']) > 150): ?>
+                                        <span class="text-muted">...</span>
+                                    <?php endif; ?>
+                                </div>
+                                
+                                <div class="event-details-3d">
+                                    <div class="event-stats">
+                                        <?php if ($event['max_participants']): ?>
+                                            <div class="stat-item">
+                                                <div class="stat-value"><?php echo $event['max_participants']; ?></div>
+                                                <div class="stat-label">Max Seats</div>
+                                            </div>
+                                        <?php endif; ?>
+                                        <div class="stat-item">
+                                            <div class="stat-value">
+                                                <?php echo $event['registration_fee'] > 0 ? '₹' . $event['registration_fee'] : 'FREE'; ?>
+                                            </div>
+                                            <div class="stat-label">Entry Fee</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-value">
+                                                <?php echo date('M j', strtotime($event['registration_deadline'])); ?>
+                                            </div>
+                                            <div class="stat-label">Deadline</div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            
-                            <div class="event-actions">
-                                <?php if (strtotime($event['registration_deadline']) > time()): ?>
-                                    <button class="btn btn-register" onclick="registerForEvent(<?php echo $event['id']; ?>)">
-                                        <i class="fas fa-calendar-plus mr-2"></i>Register Now
+                                
+                                <div class="event-actions-3d">
+                                    <?php if (strtotime($event['registration_deadline']) > time()): ?>
+                                        <button class="btn-register-3d glow-effect" onclick="registerForEvent(<?php echo $event['id']; ?>)">
+                                            <span>
+                                                <i class="fas fa-rocket mr-2"></i>
+                                                Join Adventure
+                                            </span>
+                                        </button>
+                                    <?php else: ?>
+                                        <button class="btn-register-3d" disabled style="opacity: 0.5;">
+                                            <span>
+                                                <i class="fas fa-lock mr-2"></i>
+                                                Registration Closed
+                                            </span>
+                                        </button>
+                                    <?php endif; ?>
+                                    <button class="btn-register-3d btn-secondary" onclick="viewEventDetails(<?php echo $event['id']; ?>)">
+                                        <span>
+                                            <i class="fas fa-info-circle mr-2"></i>
+                                            Details
+                                        </span>
                                     </button>
-                                <?php else: ?>
-                                    <button class="btn btn-secondary" disabled>
-                                        Registration Closed
-                                    </button>
-                                <?php endif; ?>
-                                <button class="btn btn-outline-primary ml-2" onclick="viewEventDetails(<?php echo $event['id']; ?>)">
-                                    <i class="fas fa-info-circle mr-2"></i>Details
-                                </button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <?php $delay++; ?>
                 <?php endwhile; ?>
             <?php else: ?>
                 <div class="col-12">
-                    <div class="text-center py-5">
-                        <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
-                        <h3 class="text-muted">No Events Available</h3>
-                        <p class="text-muted">Check back later for upcoming events!</p>
+                    <div class="no-events-3d">
+                        <div class="no-events-icon">
+                            <i class="fas fa-calendar-times"></i>
+                        </div>
+                        <h3 class="text-gradient mb-3">No Events in the Cosmos Yet</h3>
+                        <p class="text-secondary mb-4">
+                            The event universe is being prepared. Check back soon for amazing adventures!
+                        </p>
+                        <a href="participantformnew.php" class="btn-register-3d">
+                            <span>
+                                <i class="fas fa-bell mr-2"></i>
+                                Get Notified
+                            </span>
+                        </a>
                     </div>
                 </div>
             <?php endif; ?>
