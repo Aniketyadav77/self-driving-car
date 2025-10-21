@@ -65,43 +65,224 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="modern-3d.css">
     <style>
-        body {
-            margin: auto;
-            background: #eaeaea;
-            font-family: 'Open Sans', sans-serif;
-        }
-
-        form h1 {
-            font-size: 18px;
-            background: #F6AA93 none repeat scroll 0% 0%;
-            color: rgb(255, 255, 255);
-            padding: 22px 25px;
-            border-radius: 5px 5px 0px 0px;
-            margin: auto;
-            text-shadow: none;
-            text-align: left
-        }
-
-        form {
-            border-radius: 5px;
-            width: 100%;
-            margin: 5% auto;
-            background-color: #FFFFFF;
+        .registration-hero {
+            background: var(--gradient-dark);
+            padding: 120px 0 60px;
+            position: relative;
             overflow: hidden;
         }
-
-        p span {
-            color: #F00;
+        
+        .registration-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+            z-index: 1;
         }
-
-        p {
-            margin: 0px;
-            font-weight: 500;
-            line-height: 2;
-            color: #333;
+        
+        .form-container-3d {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 3rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            box-shadow: var(--shadow-3d);
+            position: relative;
+            z-index: 2;
+            transform-style: preserve-3d;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .form-container-3d:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .form-header-3d {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .form-title-3d {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        
+        .form-subtitle-3d {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-group-3d {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .form-input-3d {
+            width: 100%;
+            padding: 1.2rem 1.5rem 1.2rem 3.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid transparent;
+            border-radius: 15px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+        }
+        
+        .form-input-3d:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.2);
+        }
+        
+        .form-input-3d::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .input-icon-3d {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-purple);
+            font-size: 1.1rem;
+            z-index: 1;
+        }
+        
+        .form-label-3d {
+            display: block;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .form-label-3d .required {
+            color: var(--accent-pink);
+        }
+        
+        .submit-btn-3d {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 15px;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+        
+        .submit-btn-3d::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-secondary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .submit-btn-3d:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.4);
+        }
+        
+        .submit-btn-3d:hover::before {
+            opacity: 1;
+        }
+        
+        .submit-btn-3d span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .alert-3d {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(20px) saturate(180%);
+        }
+        
+        .alert-success-3d {
+            border-left: 4px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+        
+        .alert-danger-3d {
+            border-left: 4px solid var(--accent-pink);
+            color: var(--accent-pink);
+        }
+        
+        .back-btn-3d {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 1000;
+            padding: 0.8rem 1.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            color: var(--text-primary);
+            text-decoration: none;
+            backdrop-filter: blur(20px) saturate(180%);
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn-3d:hover {
+            transform: translateX(-5px);
+            color: var(--text-primary);
+            text-decoration: none;
+            background: var(--accent-purple);
+        }
+        
+        @media (max-width: 768px) {
+            .form-container-3d {
+                margin: 1rem;
+                padding: 2rem;
+            }
+            
+            .form-title-3d {
+                font-size: 2rem;
+            }
+            
+            .back-btn-3d {
+                top: 1rem;
+                left: 1rem;
+            }
+        }
         }
 
         h1 {
@@ -209,85 +390,141 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 </head>
 
-<body>
-<div class="row">
-    <div class="col-sm-1" style="float: left">
+<body class="transform-gpu">
+    <!-- Back to Home Button -->
+    <a href="mainpage.php" class="back-btn-3d">
+        <i class="fas fa-arrow-left mr-2"></i>Back to Home
+    </a>
     
-    <input type="button" name="sub" class="fadeIn fourth" onclick="window.location.href='mainpage.php'" value="Home">
-    </div>
-</div>
-    <h1>Zephyr Participation Registration Form</h1>
-    
-    <div class="container">
-        <!-- Display errors -->
-        <?php if (!empty($errors)): ?>
-            <div class="alert alert-danger">
-                <ul class="mb-0">
-                    <?php foreach ($errors as $error): ?>
-                        <li><?php echo htmlspecialchars($error); ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-        <?php endif; ?>
-        
-        <!-- Display success message -->
-        <?php if ($success_message): ?>
-            <div class="alert alert-success">
-                <?php echo htmlspecialchars($success_message); ?>
-            </div>
-        <?php endif; ?>
-        
-        <!-- Enhanced form with validation -->
-        <form action="" method="post" id="registrationForm" class="needs-validation" novalidate>
-            <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
-            <h1>Fill in the details to get your Zephyr participation ID</h1>
+    <!-- Registration Hero Section -->
+    <section class="registration-hero">
+        <div class="container">
+            <div class="form-container-3d floating-element">
+                <div class="form-header-3d">
+                    <h1 class="form-title-3d">
+                        <i class="fas fa-rocket mr-3"></i>Join Zephyr
+                    </h1>
+                    <p class="form-subtitle-3d">
+                        Embark on an extraordinary journey of creativity and innovation
+                    </p>
+                </div>
+                
+                <!-- Display errors -->
+                <?php if (!empty($errors)): ?>
+                    <div class="alert-3d alert-danger-3d">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <strong>Please fix the following issues:</strong>
+                        <ul class="mb-0 mt-2">
+                            <?php foreach ($errors as $error): ?>
+                                <li><?php echo htmlspecialchars($error); ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
+                
+                <!-- Display success message -->
+                <?php if ($success_message): ?>
+                    <div class="alert-3d alert-success-3d">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <?php echo htmlspecialchars($success_message); ?>
+                    </div>
+                <?php endif; ?>
+                
+                <!-- Modern 3D Registration Form -->
+                <form action="" method="post" id="registrationForm" class="needs-validation" novalidate>
 
 <div class="contentform">
 
     <div class="leftcontact">
-        <div class="form-group">
-            <p>First Name<span>*</span></p>
-            <span class="icon-case"><i class="fa fa-male"></i></span>
-            <input type="text" name="fname" id="f-name" required 
-                   value="<?php echo isset($_POST['fname']) ? htmlspecialchars($_POST['fname']) : ''; ?>"
-                   pattern="[A-Za-z\s]{2,50}" title="First name should contain only letters and be 2-50 characters long" />
-            <div class="invalid-feedback">Please provide a valid first name.</div>
-        </div>
-        
-        <div class="form-group">
-            <p>Middle name</p>
-            <span class="icon-case"><i class="fa fa-user"></i></span>
-            <input type="text" name="mname" id="m-name" 
-                   value="<?php echo isset($_POST['mname']) ? htmlspecialchars($_POST['mname']) : ''; ?>"
-                   pattern="[A-Za-z\s]{0,50}" title="Middle name should contain only letters" />
-        </div>
-        
-        <div class="form-group">
-            <p>Last Name</p>
-            <span class="icon-case"><i class="fa fa-male"></i></span>
-            <input type="text" name="lname" id="l-name" 
-                   value="<?php echo isset($_POST['lname']) ? htmlspecialchars($_POST['lname']) : ''; ?>"
-                   pattern="[A-Za-z\s]{2,50}" title="Last name should contain only letters and be 2-50 characters long" />
-        </div>
+                    <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group-3d">
+                                <label class="form-label-3d">
+                                    First Name <span class="required">*</span>
+                                </label>
+                                <div class="position-relative">
+                                    <i class="fas fa-user input-icon-3d"></i>
+                                    <input type="text" name="fname" id="f-name" class="form-input-3d" required 
+                                           value="<?php echo isset($_POST['fname']) ? htmlspecialchars($_POST['fname']) : ''; ?>"
+                                           pattern="[A-Za-z\s]{2,50}" 
+                                           placeholder="Enter your first name" />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group-3d">
+                                <label class="form-label-3d">Last Name</label>
+                                <div class="position-relative">
+                                    <i class="fas fa-user-tag input-icon-3d"></i>
+                                    <input type="text" name="lname" id="l-name" class="form-input-3d" 
+                                           value="<?php echo isset($_POST['lname']) ? htmlspecialchars($_POST['lname']) : ''; ?>"
+                                           pattern="[A-Za-z\s]{0,50}" 
+                                           placeholder="Enter your last name" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group-3d">
+                        <label class="form-label-3d">
+                            Email Address <span class="required">*</span>
+                        </label>
+                        <div class="position-relative">
+                            <i class="fas fa-envelope input-icon-3d"></i>
+                            <input type="email" name="email" id="email" class="form-input-3d" required 
+                                   value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"
+                                   placeholder="your.email@example.com" />
+                        </div>
+                    </div>
 
-        <div class="form-group">
-            <p>E-mail <span>*</span></p>
-            <span class="icon-case"><i class="fa fa-envelope-o"></i></span>
-            <input type="email" name="email" id="email" required 
-                   value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"
-                   title="Please enter a valid email address" />
-            <div class="invalid-feedback">Please provide a valid email address.</div>
-        </div>
-
-        <div class="form-group">
-            <p>Phone Number <span>*</span></p>
-            <span class="icon-case"><i class="fa fa-phone"></i></span>
-            <input type="tel" name="phone" id="phone" required 
-                   value="<?php echo isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : ''; ?>"
-                   pattern="[0-9]{10}" title="Phone number should be exactly 10 digits" 
-                   placeholder="1234567890" />
-            <div class="invalid-feedback">Please provide a valid 10-digit phone number.</div>
-        </div>
+                    <div class="form-group-3d">
+                        <label class="form-label-3d">
+                            Phone Number <span class="required">*</span>
+                        </label>
+                        <div class="position-relative">
+                            <i class="fas fa-phone input-icon-3d"></i>
+                            <input type="tel" name="phone" id="phone" class="form-input-3d" required 
+                                   value="<?php echo isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : ''; ?>"
+                                   pattern="[0-9]{10}" 
+                                   placeholder="10-digit phone number" />
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group-3d">
+                                <label class="form-label-3d">College/University</label>
+                                <div class="position-relative">
+                                    <i class="fas fa-university input-icon-3d"></i>
+                                    <input type="text" name="college" id="college" class="form-input-3d" 
+                                           value="<?php echo isset($_POST['college']) ? htmlspecialchars($_POST['college']) : ''; ?>"
+                                           placeholder="Your institution name" />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group-3d">
+                                <label class="form-label-3d">Course/Field</label>
+                                <div class="position-relative">
+                                    <i class="fas fa-graduation-cap input-icon-3d"></i>
+                                    <input type="text" name="course" id="course" class="form-input-3d" 
+                                           value="<?php echo isset($_POST['course']) ? htmlspecialchars($_POST['course']) : ''; ?>"
+                                           placeholder="Your field of study" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn-3d glow-effect">
+                        <span>
+                            <i class="fas fa-rocket mr-2"></i>
+                            Launch My Journey
+                        </span>
+                    </button>
 
         
 
