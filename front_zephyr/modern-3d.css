@@ -922,3 +922,411 @@ body::before {
 .sponsor-card-3d:hover .sponsor-tier-badge::before {
   left: 100%;
 }
+
+/* ================================================================
+   ADVANCED FORM COMPONENTS
+   ================================================================ */
+.form-wizard-3d {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 25px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.wizard-steps-3d {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.wizard-step-3d {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 1;
+  max-width: 200px;
+}
+
+.wizard-step-3d:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 25px;
+  left: 60%;
+  right: -40%;
+  height: 2px;
+  background: var(--glass-border);
+  z-index: 1;
+}
+
+.wizard-step-3d.active:not(:last-child)::after {
+  background: var(--gradient-primary);
+}
+
+.wizard-step-icon-3d {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--glass-bg);
+  border: 2px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.wizard-step-3d.active .wizard-step-icon-3d {
+  background: var(--gradient-primary);
+  border-color: var(--accent-purple);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+}
+
+.wizard-step-3d.completed .wizard-step-icon-3d {
+  background: var(--gradient-secondary);
+  border-color: var(--accent-cyan);
+  color: white;
+}
+
+.wizard-step-title-3d {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+.wizard-step-3d.active .wizard-step-title-3d {
+  color: var(--text-primary);
+}
+
+.checkbox-3d {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.checkbox-3d input {
+  opacity: 0;
+  position: absolute;
+}
+
+.checkbox-3d .checkmark-3d {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 20px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 15px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.checkbox-3d .checkmark-3d::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.checkbox-3d input:checked + .checkmark-3d {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: var(--accent-purple);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+}
+
+.checkbox-3d input:checked + .checkmark-3d::before {
+  opacity: 0.1;
+}
+
+.checkbox-3d .checkmark-3d i {
+  margin-right: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+.radio-group-3d {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.radio-3d {
+  position: relative;
+  flex: 1;
+  min-width: 150px;
+}
+
+.radio-3d input {
+  opacity: 0;
+  position: absolute;
+}
+
+.radio-3d .radio-label-3d {
+  display: block;
+  padding: 15px 20px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.radio-3d .radio-label-3d::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gradient-secondary);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.radio-3d input:checked + .radio-label-3d {
+  border-color: var(--accent-cyan);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(6, 182, 212, 0.3);
+  color: var(--text-primary);
+}
+
+.radio-3d input:checked + .radio-label-3d::before {
+  opacity: 0.15;
+}
+
+.radio-3d .radio-label-3d .radio-title {
+  font-weight: 600;
+  margin-bottom: 5px;
+  position: relative;
+  z-index: 2;
+}
+
+.radio-3d .radio-label-3d .radio-description {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  position: relative;
+  z-index: 2;
+}
+
+.select-3d {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.select-3d select {
+  width: 100%;
+  padding: 15px 50px 15px 20px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 15px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  appearance: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.select-3d select:focus {
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+  outline: none;
+}
+
+.select-3d::after {
+  content: '\f107';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent-orange);
+  font-size: 1.2rem;
+  pointer-events: none;
+  transition: transform 0.3s ease;
+}
+
+.select-3d:hover::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.file-upload-3d {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.file-upload-3d input[type="file"] {
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.file-upload-area-3d {
+  border: 2px dashed var(--glass-border);
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  background: var(--glass-bg);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.file-upload-area-3d::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.file-upload-3d:hover .file-upload-area-3d {
+  border-color: var(--accent-purple);
+  border-style: solid;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(99, 102, 241, 0.2);
+}
+
+.file-upload-3d:hover .file-upload-area-3d::before {
+  opacity: 0.05;
+}
+
+.file-upload-icon-3d {
+  font-size: 3rem;
+  color: var(--accent-purple);
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.file-upload-text-3d {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.file-upload-subtext-3d {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Interactive Elements */
+.progress-3d {
+  background: var(--glass-bg);
+  border-radius: 25px;
+  height: 12px;
+  margin-bottom: 1rem;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+}
+
+.progress-bar-3d {
+  height: 100%;
+  background: var(--gradient-primary);
+  border-radius: inherit;
+  transition: width 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar-3d::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: progressShine 2s infinite;
+}
+
+@keyframes progressShine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.toggle-3d {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+  margin-bottom: 1rem;
+}
+
+.toggle-3d input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider-3d {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  transition: all 0.3s ease;
+  border-radius: 30px;
+}
+
+.toggle-slider-3d::before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  top: 3px;
+  background: var(--text-secondary);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.toggle-3d input:checked + .toggle-slider-3d {
+  background: var(--gradient-primary);
+  border-color: var(--accent-purple);
+}
+
+.toggle-3d input:checked + .toggle-slider-3d::before {
+  transform: translateX(30px);
+  background: white;
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4);
+}

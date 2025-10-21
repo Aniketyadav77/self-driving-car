@@ -530,15 +530,142 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         
                         <div class="col-md-6">
                             <div class="form-group-3d">
-                                <label class="form-label-3d">Course/Field</label>
-                                <div class="position-relative">
-                                    <i class="fas fa-graduation-cap input-icon-3d"></i>
-                                    <input type="text" name="course" id="course" class="form-input-3d" 
-                                           value="<?php echo isset($_POST['course']) ? htmlspecialchars($_POST['course']) : ''; ?>"
-                                           placeholder="Your field of study" />
+                                <label class="form-label-3d">Academic Year</label>
+                                <div class="select-3d">
+                                    <select name="year" id="year">
+                                        <option value="">Select Your Year</option>
+                                        <option value="1st">1st Year</option>
+                                        <option value="2nd">2nd Year</option>
+                                        <option value="3rd">3rd Year</option>
+                                        <option value="4th">4th Year</option>
+                                        <option value="graduate">Graduate</option>
+                                        <option value="postgraduate">Post Graduate</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Event Category Selection -->
+                    <div class="form-group-3d">
+                        <label class="form-label-3d">
+                            <i class="fas fa-star mr-2"></i>Choose Your Adventure Categories
+                        </label>
+                        <div class="radio-group-3d">
+                            <div class="radio-3d">
+                                <input type="radio" id="tech" name="category" value="technology">
+                                <label for="tech" class="radio-label-3d">
+                                    <div class="radio-title">
+                                        <i class="fas fa-robot mr-2"></i>Technology
+                                    </div>
+                                    <div class="radio-description">AI, Robotics, Coding</div>
+                                </label>
+                            </div>
+                            <div class="radio-3d">
+                                <input type="radio" id="creative" name="category" value="creative">
+                                <label for="creative" class="radio-label-3d">
+                                    <div class="radio-title">
+                                        <i class="fas fa-palette mr-2"></i>Creative Arts
+                                    </div>
+                                    <div class="radio-description">Design, Music, Photography</div>
+                                </label>
+                            </div>
+                            <div class="radio-3d">
+                                <input type="radio" id="business" name="category" value="business">
+                                <label for="business" class="radio-label-3d">
+                                    <div class="radio-title">
+                                        <i class="fas fa-chart-line mr-2"></i>Business
+                                    </div>
+                                    <div class="radio-description">Entrepreneurship, Finance</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills & Interests -->
+                    <div class="form-group-3d">
+                        <label class="form-label-3d">
+                            <i class="fas fa-brain mr-2"></i>Your Superpowers (Select all that apply)
+                        </label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="checkbox-3d">
+                                    <input type="checkbox" name="skills[]" value="programming">
+                                    <span class="checkmark-3d">
+                                        <i class="fas fa-code"></i>Programming & Development
+                                    </span>
+                                </label>
+                                <label class="checkbox-3d">
+                                    <input type="checkbox" name="skills[]" value="design">
+                                    <span class="checkmark-3d">
+                                        <i class="fas fa-paint-brush"></i>Graphic Design & UI/UX
+                                    </span>
+                                </label>
+                                <label class="checkbox-3d">
+                                    <input type="checkbox" name="skills[]" value="music">
+                                    <span class="checkmark-3d">
+                                        <i class="fas fa-music"></i>Music & Audio Production
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="checkbox-3d">
+                                    <input type="checkbox" name="skills[]" value="photography">
+                                    <span class="checkmark-3d">
+                                        <i class="fas fa-camera"></i>Photography & Videography
+                                    </span>
+                                </label>
+                                <label class="checkbox-3d">
+                                    <input type="checkbox" name="skills[]" value="writing">
+                                    <span class="checkmark-3d">
+                                        <i class="fas fa-pen"></i>Creative Writing & Content
+                                    </span>
+                                </label>
+                                <label class="checkbox-3d">
+                                    <input type="checkbox" name="skills[]" value="leadership">
+                                    <span class="checkmark-3d">
+                                        <i class="fas fa-users"></i>Leadership & Management
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- File Upload for Portfolio -->
+                    <div class="form-group-3d">
+                        <label class="form-label-3d">
+                            <i class="fas fa-upload mr-2"></i>Upload Your Portfolio (Optional)
+                        </label>
+                        <div class="file-upload-3d">
+                            <input type="file" name="portfolio" id="portfolio" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+                            <div class="file-upload-area-3d">
+                                <div class="file-upload-icon-3d">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <div class="file-upload-text-3d">
+                                    Drop your files here or click to browse
+                                </div>
+                                <div class="file-upload-subtext-3d">
+                                    Supported formats: PDF, Images, Documents (Max: 5MB)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Newsletter & Updates -->
+                    <div class="form-group-3d">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <label class="form-label-3d mb-0">
+                                <i class="fas fa-envelope-open mr-2"></i>Stay Connected with Zephyr Updates
+                            </label>
+                            <label class="toggle-3d">
+                                <input type="checkbox" name="newsletter" value="1" checked>
+                                <span class="toggle-slider-3d"></span>
+                            </label>
+                        </div>
+                        <small class="text-secondary">
+                            Receive exclusive updates about events, workshops, and opportunities
+                        </small>
                     </div>
                     
                     <button type="submit" class="submit-btn-3d glow-effect">
@@ -715,6 +842,102 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         };
 
         ?>       
+        
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <!-- Advanced Form Interactions -->
+    <script>
+        $(document).ready(function() {
+            // Form validation with real-time feedback
+            const form = document.getElementById('registrationForm');
+            const inputs = form.querySelectorAll('.form-input-3d');
+            
+            // Real-time validation for email
+            $('#email').on('input', function() {
+                const email = $(this).val();
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const isValid = emailRegex.test(email);
+                
+                if (email && !isValid) {
+                    $(this).addClass('is-invalid').removeClass('is-valid');
+                } else if (isValid) {
+                    $(this).addClass('is-valid').removeClass('is-invalid');
+                } else {
+                    $(this).removeClass('is-invalid is-valid');
+                }
+            });
+            
+            // Real-time validation for phone
+            $('#phone').on('input', function() {
+                const phone = $(this).val().replace(/\D/g, '');
+                $(this).val(phone);
+                
+                if (phone.length === 10) {
+                    $(this).addClass('is-valid').removeClass('is-invalid');
+                } else if (phone.length > 0) {
+                    $(this).addClass('is-invalid').removeClass('is-valid');
+                } else {
+                    $(this).removeClass('is-invalid is-valid');
+                }
+            });
+            
+            // File upload handler with drag & drop
+            const fileUploadArea = $('.file-upload-area-3d');
+            
+            $('#portfolio').on('change', function(e) {
+                const file = e.target.files[0];
+                const uploadArea = $(this).siblings('.file-upload-area-3d');
+                
+                if (file) {
+                    const fileName = file.name;
+                    const fileSize = (file.size / 1024 / 1024).toFixed(2);
+                    
+                    if (file.size > 5 * 1024 * 1024) {
+                        uploadArea.find('.file-upload-text-3d').text('File too large! Max 5MB.');
+                        uploadArea.addClass('error');
+                        return;
+                    }
+                    
+                    uploadArea.removeClass('error');
+                    uploadArea.find('.file-upload-text-3d').text(`Selected: ${fileName} (${fileSize}MB)`);
+                    uploadArea.find('.file-upload-icon-3d i').removeClass('fa-cloud-upload-alt').addClass('fa-check-circle');
+                }
+            });
+            
+            // Enhanced form submission
+            $('#registrationForm').on('submit', function(e) {
+                const submitBtn = $('.submit-btn-3d');
+                const originalText = submitBtn.html();
+                
+                submitBtn.html('<i class="fas fa-spinner fa-spin mr-2"></i>Launching Mission...');
+                submitBtn.prop('disabled', true);
+            });
+            
+            // Mobile menu toggle
+            $('#mobileMenuBtn').on('click', function() {
+                $('#mobileMenu').slideToggle(300);
+                $(this).find('i').toggleClass('fa-bars fa-times');
+            });
+        });
+    </script>
+    
+    <style>
+        .form-input-3d.is-valid {
+            border-color: var(--accent-cyan) !important;
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1) !important;
+        }
+        
+        .form-input-3d.is-invalid {
+            border-color: var(--accent-orange) !important;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1) !important;
+        }
+        
+        .file-upload-area-3d.error {
+            border-color: var(--accent-orange) !important;
+            background: rgba(245, 158, 11, 0.1) !important;
+        }
+    </style>
 </body>
 
 </html>
