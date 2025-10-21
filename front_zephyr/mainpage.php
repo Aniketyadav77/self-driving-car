@@ -918,5 +918,232 @@ $qr=mysqli_query($mysqli,$qv);
       };
       requestAnimationFrame(update);
     </script>
+
+    <!-- Mobile Optimization & Touch Interactions -->
+    <script>
+      $(document).ready(function() {
+        // Mobile menu enhancement
+        let isMenuOpen = false;
+        
+        $('#mobileMenuBtn').on('click', function() {
+          isMenuOpen = !isMenuOpen;
+          const menu = $('#mobileMenu');
+          const icon = $(this).find('i');
+          
+          if (isMenuOpen) {
+            menu.slideDown(300).css('display', 'block');
+            icon.removeClass('fa-bars').addClass('fa-times');
+            $(this).addClass('menu-open');
+          } else {
+            menu.slideUp(300);
+            icon.removeClass('fa-times').addClass('fa-bars');
+            $(this).removeClass('menu-open');
+          }
+        });
+        
+        // Close mobile menu when clicking outside
+        $(document).on('click', function(e) {
+          if (isMenuOpen && !$(e.target).closest('.navbar-3d').length) {
+            $('#mobileMenu').slideUp(300);
+            $('#mobileMenuBtn i').removeClass('fa-times').addClass('fa-bars');
+            $('#mobileMenuBtn').removeClass('menu-open');
+            isMenuOpen = false;
+          }
+        });
+        
+        // Smooth scroll for anchor links
+        $('a[href^="#"]').on('click', function(e) {
+          e.preventDefault();
+          const target = $(this.getAttribute('href'));
+          if (target.length) {
+            $('html, body').animate({
+              scrollTop: target.offset().top - 80
+            }, 1000);
+          }
+          
+          // Close mobile menu if open
+          if (isMenuOpen) {
+            $('#mobileMenu').slideUp(300);
+            $('#mobileMenuBtn i').removeClass('fa-times').addClass('fa-bars');
+            $('#mobileMenuBtn').removeClass('menu-open');
+            isMenuOpen = false;
+          }
+        });
+        
+        // Touch interactions for cards
+        $('.card-3d, .event-card-3d, .sponsor-card-3d').on('touchstart', function() {
+          $(this).addClass('touch-active');
+        }).on('touchend', function() {
+          const self = $(this);
+          setTimeout(() => self.removeClass('touch-active'), 150);
+        });
+        
+        // Optimize images for mobile
+        function optimizeImages() {
+          if (window.innerWidth <= 768) {
+            $('img[data-mobile]').each(function() {
+              $(this).attr('src', $(this).data('mobile'));
+            });
+          }
+        }
+        
+        // Lazy loading for better performance
+        function lazyLoad() {
+          const images = document.querySelectorAll('img[data-src]');
+          const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.classList.remove('lazy');
+                imageObserver.unobserve(img);
+              }
+            });
+          });
+          
+          images.forEach(img => imageObserver.observe(img));
+        }
+        
+        // Viewport height fix for mobile browsers
+        function setVH() {
+          let vh = window.innerHeight * 0.01;
+          document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        
+        setVH();
+        window.addEventListener('resize', setVH);
+        window.addEventListener('orientationchange', setVH);
+        
+        // Preload critical resources
+        function preloadCritical() {
+          const criticalLinks = [
+            'participantformnew.php',
+            'events.php',
+            'plogin.php'
+          ];
+          
+          criticalLinks.forEach(link => {
+            const linkElement = document.createElement('link');
+            linkElement.rel = 'prefetch';
+            linkElement.href = link;
+            document.head.appendChild(linkElement);
+          });
+        }
+        
+        // Performance monitoring
+        function trackPerformance() {
+          if ('performance' in window) {
+            window.addEventListener('load', () => {
+              const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+              console.log('Page load time:', loadTime + 'ms');
+              
+              // Track if page loads fast on mobile
+              if (window.innerWidth <= 768 && loadTime > 3000) {
+                console.warn('Slow mobile performance detected');
+              }
+            });
+          }
+        }
+        
+        // Initialize optimizations
+        optimizeImages();
+        lazyLoad();
+        preloadCritical();
+        trackPerformance();
+        
+        // Swipe gestures for mobile navigation
+        let startX = 0;
+        let startY = 0;
+        
+        document.addEventListener('touchstart', function(e) {
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+        });
+        
+        document.addEventListener('touchend', function(e) {
+          if (!startX || !startY) return;
+          
+          const endX = e.changedTouches[0].clientX;
+          const endY = e.changedTouches[0].clientY;
+          
+          const diffX = startX - endX;
+          const diffY = startY - endY;
+          
+          // Swipe threshold
+          if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 100) {
+            if (diffX > 0) {
+              // Swipe left - could trigger next section
+              console.log('Swipe left detected');
+            } else {
+              // Swipe right - could trigger previous section
+              console.log('Swipe right detected');
+            }
+          }
+          
+          startX = 0;
+          startY = 0;
+        });
+        
+        // Adaptive loading based on connection
+        if ('connection' in navigator) {
+          const connection = navigator.connection;
+          
+          if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') {
+            // Disable particles and heavy animations on slow connections
+            document.getElementById('particles-js').style.display = 'none';
+            document.body.classList.add('reduced-motion');
+          }
+        }
+      });
+    </script>
+
+    <!-- Additional CSS for mobile enhancements -->
+    <style>
+      .touch-active {
+        transform: translateY(-5px) scale(0.98) !important;
+        transition: transform 0.1s ease !important;
+      }
+      
+      .menu-open {
+        background: var(--gradient-primary) !important;
+        color: white !important;
+      }
+      
+      /* Use viewport units with fallback */
+      .hero-3d {
+        min-height: 100vh;
+        min-height: calc(var(--vh, 1vh) * 100);
+      }
+      
+      /* Improved touch targets */
+      @media (max-width: 768px) {
+        .nav-link-3d,
+        .btn-modern,
+        .social-icon-3d {
+          min-height: 44px;
+          min-width: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+      
+      /* Reduced motion class */
+      .reduced-motion * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      
+      /* Lazy loading placeholder */
+      img.lazy {
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      
+      img.lazy.loaded {
+        opacity: 1;
+      }
+    </style>
   </body>
 </html>

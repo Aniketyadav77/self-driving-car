@@ -1330,3 +1330,427 @@ body::before {
   background: white;
   box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4);
 }
+
+/* ================================================================
+   ENHANCED RESPONSIVE DESIGN & MOBILE OPTIMIZATION
+   ================================================================ */
+
+/* Large Tablets and Small Desktops */
+@media (max-width: 1200px) {
+  .hero-3d {
+    padding: 100px 0;
+  }
+  
+  .hero-title-3d {
+    font-size: 3rem;
+  }
+  
+  .grid-3d.grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .navbar-3d {
+    padding: 1rem 0;
+  }
+  
+  .card-3d {
+    padding: 1.5rem;
+  }
+}
+
+/* Standard Tablets */
+@media (max-width: 992px) {
+  .hero-title-3d {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle-3d {
+    font-size: 1.1rem;
+  }
+  
+  .grid-3d.grid-cols-3 {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .event-card-3d {
+    margin-bottom: 2rem;
+  }
+  
+  .dashboard-sidebar {
+    position: fixed;
+    left: -300px;
+    top: 0;
+    height: 100vh;
+    width: 300px;
+    z-index: 1000;
+    transition: left 0.3s ease;
+  }
+  
+  .dashboard-sidebar.active {
+    left: 0;
+  }
+  
+  .dashboard-main {
+    padding: 1rem;
+  }
+  
+  .footer-brand-3d {
+    font-size: 3rem;
+  }
+  
+  .radio-group-3d {
+    flex-direction: column;
+  }
+  
+  .radio-3d {
+    min-width: 100%;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Mobile Landscape and Small Tablets */
+@media (max-width: 768px) {
+  .hero-3d {
+    padding: 80px 0 40px;
+    text-align: center;
+  }
+  
+  .hero-title-3d {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-subtitle-3d {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .hero-stats-3d {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .navbar-3d {
+    padding: 0.75rem 0;
+  }
+  
+  .navbar-brand h2 {
+    font-size: 1.5rem;
+  }
+  
+  .navbar-brand small {
+    font-size: 0.75rem;
+  }
+  
+  .nav-link-3d {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  .btn-modern {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .card-3d {
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-container-3d {
+    padding: 2rem;
+    margin: 1rem;
+  }
+  
+  .form-title-3d {
+    font-size: 2rem;
+  }
+  
+  .form-input-3d {
+    padding: 1rem 1.25rem 1rem 3rem;
+  }
+  
+  .checkbox-3d .checkmark-3d {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .social-icons-3d {
+    gap: 0.75rem;
+  }
+  
+  .social-icon-3d {
+    width: 45px;
+    height: 45px;
+    font-size: 1.1rem;
+  }
+  
+  .footer-section-3d {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .footer-contact-3d {
+    padding: 1.5rem;
+  }
+  
+  .contact-item-3d {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .contact-icon-3d {
+    margin: 0 0 10px 0;
+  }
+  
+  .sponsor-card-3d {
+    margin-bottom: 2rem;
+  }
+  
+  .wizard-steps-3d {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .wizard-step-3d:not(:last-child)::after {
+    display: none;
+  }
+  
+  .events-hero-3d {
+    padding: 60px 0 40px;
+  }
+  
+  .events-title-3d {
+    font-size: 2.5rem;
+  }
+}
+
+/* Mobile Portrait */
+@media (max-width: 480px) {
+  .hero-title-3d {
+    font-size: 1.75rem;
+    line-height: 1.2;
+  }
+  
+  .hero-subtitle-3d {
+    font-size: 0.9rem;
+  }
+  
+  .hero-stats-3d {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .stat-item-3d {
+    padding: 1rem;
+  }
+  
+  .stat-number-3d {
+    font-size: 1.5rem;
+  }
+  
+  .navbar-brand h2 {
+    font-size: 1.25rem;
+  }
+  
+  .card-3d {
+    padding: 1rem;
+    border-radius: 15px;
+  }
+  
+  .form-container-3d {
+    padding: 1.5rem;
+  }
+  
+  .form-title-3d {
+    font-size: 1.5rem;
+  }
+  
+  .form-input-3d {
+    padding: 0.875rem 1rem 0.875rem 2.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .input-icon-3d {
+    left: 12px;
+    font-size: 1rem;
+  }
+  
+  .submit-btn-3d {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .footer-brand-3d {
+    font-size: 2rem;
+  }
+  
+  .footer-title-3d {
+    font-size: 1.25rem;
+  }
+  
+  .social-icon-3d {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .radio-group-3d {
+    gap: 0.75rem;
+  }
+  
+  .checkbox-3d .checkmark-3d {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+  
+  .select-3d select {
+    padding: 12px 40px 12px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .file-upload-area-3d {
+    padding: 1.5rem;
+  }
+  
+  .file-upload-icon-3d {
+    font-size: 2.5rem;
+  }
+  
+  .file-upload-text-3d {
+    font-size: 1rem;
+  }
+  
+  .progress-3d {
+    height: 10px;
+  }
+  
+  .toggle-3d {
+    width: 50px;
+    height: 25px;
+  }
+  
+  .toggle-slider-3d::before {
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    top: 3px;
+  }
+  
+  .toggle-3d input:checked + .toggle-slider-3d::before {
+    transform: translateX(25px);
+  }
+  
+  .event-card-3d {
+    padding: 1rem;
+  }
+  
+  .event-title-3d {
+    font-size: 1.25rem;
+  }
+  
+  .sponsor-logo-container {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .sponsor-logo-3d {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+/* Ultra Small Devices */
+@media (max-width: 320px) {
+  .hero-title-3d {
+    font-size: 1.5rem;
+  }
+  
+  .navbar-brand h2 {
+    font-size: 1.125rem;
+  }
+  
+  .form-container-3d {
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+  
+  .card-3d {
+    padding: 0.875rem;
+  }
+  
+  .social-icon-3d {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
+  }
+  
+  .footer-brand-3d {
+    font-size: 1.75rem;
+  }
+}
+
+/* High DPI / Retina Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .card-3d {
+    border-width: 0.5px;
+  }
+  
+  .form-input-3d {
+    border-width: 1.5px;
+  }
+  
+  .social-icon-3d {
+    border-width: 0.5px;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-primary: #ffffff;
+    --text-secondary: #d1d5db;
+    --text-muted: #9ca3af;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .floating-element {
+    animation: none !important;
+  }
+  
+  .card-3d:hover {
+    transform: translateY(-2px) !important;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .navbar-3d,
+  .footer-3d,
+  .btn-modern,
+  .submit-btn-3d {
+    display: none !important;
+  }
+  
+  .card-3d {
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+    background: white !important;
+    color: black !important;
+  }
+  
+  .text-gradient {
+    -webkit-text-fill-color: black !important;
+    background: none !important;
+  }
+}
