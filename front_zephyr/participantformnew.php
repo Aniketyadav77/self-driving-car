@@ -391,10 +391,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body class="transform-gpu">
-    <!-- Back to Home Button -->
-    <a href="mainpage.php" class="back-btn-3d">
-        <i class="fas fa-arrow-left mr-2"></i>Back to Home
-    </a>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar-3d">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+          <div class="navbar-brand">
+            <h2 class="text-gradient mb-0 floating-element">
+              <i class="fas fa-rocket mr-2"></i>ZEPHYR
+            </h2>
+            <small class="text-secondary d-block">Registration Portal</small>
+          </div>
+          
+          <div class="d-flex align-items-center">
+            <a href="mainpage.php" class="nav-link-3d mx-2">
+              <i class="fas fa-home mr-2"></i>Home
+            </a>
+            <a href="events.php" class="nav-link-3d mx-2">
+              <i class="fas fa-calendar mr-2"></i>Events
+            </a>
+            <a href="plogin.php" class="nav-link-3d mx-2">
+              <i class="fas fa-user mr-2"></i>Portal
+            </a>
+            <a href="admin_auth.php" class="nav-link-3d mx-2">
+              <i class="fas fa-cog mr-2"></i>Admin
+            </a>
+          </div>
+        </div>
+    </nav>
     
     <!-- Registration Hero Section -->
     <section class="registration-hero">

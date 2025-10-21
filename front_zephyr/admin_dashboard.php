@@ -253,6 +253,30 @@ $csrf_token = generate_csrf_token();
     </style>
 </head>
 <body>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar-3d">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+          <div class="navbar-brand">
+            <h2 class="text-gradient mb-0 floating-element">
+              <i class="fas fa-rocket mr-2"></i>ZEPHYR
+            </h2>
+            <small class="text-secondary d-block">Admin Control Center</small>
+          </div>
+          
+          <div class="d-flex align-items-center">
+            <a href="mainpage.php" class="nav-link-3d mx-2">
+              <i class="fas fa-home mr-2"></i>Main Site
+            </a>
+            <a href="events.php" class="nav-link-3d mx-2">
+              <i class="fas fa-calendar mr-2"></i>Events
+            </a>
+            <a href="logout.php" class="nav-link-3d mx-2">
+              <i class="fas fa-sign-out-alt mr-2"></i>Logout
+            </a>
+          </div>
+        </div>
+    </nav>
+
     <div class="container-fluid p-0">
         <div class="row no-gutters">
             <!-- Modern 3D Sidebar -->
@@ -260,9 +284,9 @@ $csrf_token = generate_csrf_token();
                 <div class="p-4">
                     <div class="text-center mb-4">
                         <div class="brand-3d floating-element">
-                            <i class="fas fa-rocket mr-2"></i>ZEPHYR
+                            <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
                         </div>
-                        <small class="text-secondary">Command Center</small>
+                        <small class="text-secondary">Management Hub</small>
                     </div>
                     
                     <nav class="sidebar-nav-3d">

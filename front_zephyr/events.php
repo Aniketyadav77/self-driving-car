@@ -356,22 +356,62 @@ $csrf_token = generate_csrf_token();
     </style>
 </head>
 <body class="glass">
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background: rgba(0, 0, 0, 0.9);">
-        <div class="container">
-            <a class="navbar-brand" href="mainpage.php">
-                <i class="fas fa-music mr-2"></i>Zephyr
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="mainpage.php">Home</a></li>
-                    <li class="nav-item active"><a class="nav-link" href="events.php">Events</a></li>
-                    <li class="nav-item"><a class="nav-link" href="plogin.php">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="participantformnew.php">Register</a></li>
-                </ul>
+    <!-- Modern 3D Navigation -->
+    <nav class="navbar-3d">
+        <div class="container-fluid px-4">
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <div class="navbar-brand">
+                    <h2 class="text-gradient mb-0 floating-element">
+                        <i class="fas fa-rocket mr-2"></i>ZEPHYR
+                    </h2>
+                    <small class="text-secondary d-block">Experience the Future</small>
+                </div>
+                
+                <div class="d-none d-lg-flex align-items-center">
+                    <a href="mainpage.php" class="nav-link-3d mx-2">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </a>
+                    <a href="events.php" class="nav-link-3d mx-2 active">
+                        <i class="fas fa-calendar mr-2"></i>Events
+                    </a>
+                    <a href="plogin.php" class="nav-link-3d mx-2">
+                        <i class="fas fa-user mr-2"></i>Portal
+                    </a>
+                    <a href="admin_auth.php" class="nav-link-3d mx-2">
+                        <i class="fas fa-cog mr-2"></i>Admin
+                    </a>
+                    <a href="participantformnew.php" class="btn-modern ml-3">
+                        <span><i class="fas fa-rocket mr-2"></i>Join Now</span>
+                    </a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button class="btn btn-secondary d-lg-none" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div class="d-lg-none mt-3" id="mobileMenu" style="display: none;">
+                <div class="card-3d">
+                    <div class="d-flex flex-column">
+                        <a href="mainpage.php" class="nav-link-3d mb-2">
+                            <i class="fas fa-home mr-2"></i>Home
+                        </a>
+                        <a href="events.php" class="nav-link-3d mb-2 active">
+                            <i class="fas fa-calendar mr-2"></i>Events
+                        </a>
+                        <a href="plogin.php" class="nav-link-3d mb-2">
+                            <i class="fas fa-user mr-2"></i>Portal
+                        </a>
+                        <a href="admin_auth.php" class="nav-link-3d mb-2">
+                            <i class="fas fa-cog mr-2"></i>Admin
+                        </a>
+                        <a href="participantformnew.php" class="btn-modern">
+                            <span><i class="fas fa-rocket mr-2"></i>Join Now</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>

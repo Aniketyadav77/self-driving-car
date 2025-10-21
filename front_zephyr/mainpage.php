@@ -48,12 +48,15 @@ $qr=mysqli_query($mysqli,$qv);
         <div class="d-flex justify-content-between align-items-center w-100">
           <div class="navbar-brand">
             <h2 class="text-gradient mb-0 floating-element">
-              <i class="fas fa-music mr-2"></i>ZEPHYR
+              <i class="fas fa-rocket mr-2"></i>ZEPHYR
             </h2>
-            <small class="text-secondary d-block">School of Engineering, JNU</small>
+            <small class="text-secondary d-block">Experience the Future</small>
           </div>
           
           <div class="d-none d-lg-flex align-items-center">
+            <a href="mainpage.php" class="nav-link-3d mx-2 active">
+              <i class="fas fa-home mr-2"></i>Home
+            </a>
             <a href="events.php" class="nav-link-3d mx-2">
               <i class="fas fa-calendar mr-2"></i>Events
             </a>
@@ -67,7 +70,7 @@ $qr=mysqli_query($mysqli,$qv);
               <i class="fas fa-cog mr-2"></i>Admin
             </a>
             <a href="participantformnew.php" class="btn-modern ml-3">
-              <span><i class="fas fa-rocket mr-2"></i>Register Now</span>
+              <span><i class="fas fa-rocket mr-2"></i>Join Now</span>
             </a>
           </div>
           
@@ -75,6 +78,32 @@ $qr=mysqli_query($mysqli,$qv);
           <button class="btn btn-secondary d-lg-none" id="mobileMenuBtn">
             <i class="fas fa-bars"></i>
           </button>
+          
+          <!-- Mobile Menu -->
+          <div class="d-lg-none mt-3" id="mobileMenu" style="display: none;">
+            <div class="card-3d">
+              <div class="d-flex flex-column">
+                <a href="mainpage.php" class="nav-link-3d mb-2 active">
+                  <i class="fas fa-home mr-2"></i>Home
+                </a>
+                <a href="events.php" class="nav-link-3d mb-2">
+                  <i class="fas fa-calendar mr-2"></i>Events
+                </a>
+                <a href="plogin.php" class="nav-link-3d mb-2">
+                  <i class="fas fa-user mr-2"></i>Portal
+                </a>
+                <a href="#sponsors" class="nav-link-3d mb-2">
+                  <i class="fas fa-handshake mr-2"></i>Sponsors
+                </a>
+                <a href="admin_auth.php" class="nav-link-3d mb-2">
+                  <i class="fas fa-cog mr-2"></i>Admin
+                </a>
+                <a href="participantformnew.php" class="btn-modern">
+                  <span><i class="fas fa-rocket mr-2"></i>Join Now</span>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </nav>
