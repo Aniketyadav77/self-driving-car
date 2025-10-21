@@ -33,123 +33,127 @@ $qr=mysqli_query($mysqli,$qv);
 
     <!-- Styles -->
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="modern-3d.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   </head>
   <script src="js/jssor.slider-28.0.0.min.js" type="text/javascript"></script>
   
 
-  <body>
-    <header class="site-header">
-      <div class="header-bar">
-        <div class="container-fluid">
-          <div class="row align-items-center">
-            <div class="col-10 col-lg-4">
-              <h1 class="site-branding flex ">
-              <!-- to go to SE website -->
-                <a href="https://www.jnu.ac.in/se">School of Engineering,JNU 
-                    presents</a>
-                
-            </div>
-
-            <div class="col-2 col-lg-8">
-              <nav class="site-navigation">
-                <div class="hamburger-menu d-lg-none">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-                <!-- .hamburger-menu -->
-
-                <ul>
-                <!-- nav bar URLS to go to different pages -->
-                  <li><a href="danceindex.php">Dance Events</a></li>
-                  <li><a href="musicindex.php">Music Events</a></li>
-                  <li><a href="dramaindex.php">Drama Events</a></li>
-                  <li><a href="literaryindex.php">Literary Events</a></li>
-                  <li><a href="plogin.php">You in ZEPHYR</a></li>
-                  <li><a href="#sponsor">SPONSORS</a></li>
-                  <li><a href="adminlogin.php">ADMIN</a></li>
-                </ul>
-              </nav>
-              <!-- .site-navigation -->
-            </div>
-            <!-- .col-12 -->
+  <body class="transform-gpu">
+    <!-- Modern 3D Navigation -->
+    <nav class="navbar-3d">
+      <div class="container-fluid px-4">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <div class="navbar-brand">
+            <h2 class="text-gradient mb-0 floating-element">
+              <i class="fas fa-music mr-2"></i>ZEPHYR
+            </h2>
+            <small class="text-secondary d-block">School of Engineering, JNU</small>
           </div>
-          <!-- .row -->
+          
+          <div class="d-none d-lg-flex align-items-center">
+            <a href="events.php" class="nav-link-3d mx-2">
+              <i class="fas fa-calendar mr-2"></i>Events
+            </a>
+            <a href="plogin.php" class="nav-link-3d mx-2">
+              <i class="fas fa-user mr-2"></i>Portal
+            </a>
+            <a href="#sponsors" class="nav-link-3d mx-2">
+              <i class="fas fa-handshake mr-2"></i>Sponsors
+            </a>
+            <a href="admin_auth.php" class="nav-link-3d mx-2">
+              <i class="fas fa-cog mr-2"></i>Admin
+            </a>
+            <a href="participantformnew.php" class="btn-modern ml-3">
+              <span><i class="fas fa-rocket mr-2"></i>Register Now</span>
+            </a>
+          </div>
+          
+          <!-- Mobile Menu Button -->
+          <button class="btn btn-secondary d-lg-none" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+          </button>
         </div>
-        <!-- container-fluid -->
       </div>
-      <!-- header-bar -->
-    </header>
+    </nav>
     <div id="particles-js"></div>
     <!-- adding particles to make it look better -->
     <!-- particles.js lib - https://github.com/VincentGarreau/particles.js -->
     <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
-  <div class="hero-content glass">
+    <!-- Modern 3D Hero Section -->
+    <section class="hero-3d">
+      <!-- Animated Particles Background -->
+      <div class="particles-container">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
+      </div>
+      
       <div class="container">
-        <div class="row">
-          <div class="col-12 offset-lg-2 col-lg-10">
-            <div class="entry-header">
-              <h2>Zephyr!</h2>
-
-              <div class="entry-meta-date">
-                FIRST TIME EVER
-              </div>
-              <!-- .entry-meta-date -->
-            </div>
-            <!-- .entry-header -->
-            <div
-              class="countdown flex flex-wrap justify-content-between"
-              data-date="2018/06/06"
-            >
-            <!-- COUNTDOWNER -->
-              <div class="countdown-holder">
-                <div class="dday" id="dday"></div>
-                <label>Days</label>
-              </div>
-              <!-- .countdown-holder -->
-
-              <div class="countdown-holder">
-                <div class="dhour" id="dhour"></div>
-                <label>Hours</label>
-              </div>
-              <!-- .countdown-holder -->
-
-              <div class="countdown-holder">
-                <div class="dmin" id="dmin"></div>
-                <label>Minutes</label>
-              </div>
-              <!-- .countdown-holder -->
-
-              <div class="countdown-holder">
-                <div class="dsec" id="dsec"></div>
-                <label>Seconds</label>
-              </div>
-              <!-- .countdown-holder -->
-            </div>
-            <!-- .countdown -->
+        <div class="hero-content-3d">
+          <div class="hero-title-3d floating-element">
+            ZEPHYR
           </div>
-          <!-- .col-12 -->
-        </div>
-        <!-- row -->
-
-        <div class="row">
-          <div class="col-12">
-            <div class="entry-footer">
-              <!-- link to register one in fest -->
-              <a href="participantformnew.php" class="btn current"
-                >Register youself!!!</a
-              >
+          <div class="hero-subtitle-3d">
+            Experience the Future of Festival Technology
+          </div>
+          
+          <!-- Modern Countdown -->
+          <div class="row justify-content-center mb-5">
+            <div class="col-lg-8">
+              <div class="card-3d text-center">
+                <h3 class="text-gradient mb-4">Event Countdown</h3>
+                <div class="row">
+                  <div class="col-3">
+                    <div class="card-3d bg-transparent">
+                      <div class="display-4 text-gradient" id="dday">--</div>
+                      <small class="text-secondary">Days</small>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="card-3d bg-transparent">
+                      <div class="display-4 text-gradient" id="dhour">--</div>
+                      <small class="text-secondary">Hours</small>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="card-3d bg-transparent">
+                      <div class="display-4 text-gradient" id="dmin">--</div>
+                      <small class="text-secondary">Minutes</small>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <div class="card-3d bg-transparent">
+                      <div class="display-4 text-gradient" id="dsec">--</div>
+                      <small class="text-secondary">Seconds</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+          
+          <!-- Action Buttons -->
+          <div class="d-flex flex-wrap justify-content-center gap-3">
+            <a href="participantformnew.php" class="btn-modern glow-effect">
+              <span><i class="fas fa-rocket mr-2"></i>Join the Revolution</span>
+            </a>
+            <a href="events.php" class="btn-modern btn-secondary">
+              <span><i class="fas fa-calendar mr-2"></i>Explore Events</span>
+            </a>
           </div>
         </div>
       </div>
-      <!-- .container -->
-    </div>
-    <!-- .hero-content -->
-
-    <div class="container">
+    </section>    <div class="container">
       <div class="row">
         <div class="col-12">
           <div class="lineup-artists-headline">
