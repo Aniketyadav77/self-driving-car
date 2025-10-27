@@ -1,0 +1,21 @@
+/vendor/
+/node_modules/
+/.env
+/.idea/
+/.vscode/
+/.DS_Store
+/*.log
+/cache/
+/*.sql
+/uploads/
+*.sqlite
+*.sqlite3
+/.sass-cache/
+/public/storage
+/.cache
+
+# Composer
+composer.lock
+
+# NPM
+package-lock.json
