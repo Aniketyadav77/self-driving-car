@@ -593,73 +593,116 @@ $csrf_token = generate_csrf_token();
         </div>
     </div>
     
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        // Search and filter functionality
-        $(document).ready(function() {
-            $('#searchEvents').on('keyup', filterEvents);
-            $('#categoryFilter').on('change', filterEvents);
+        // Utility: debounce
+        function debounce(fn, delay) {
+            let t;
+            return function (...args) {
+                clearTimeout(t);
+                t = setTimeout(() => fn.apply(this, args), delay);
+            };
+        }
+
+        // DOM-ready equivalent
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchEvents');
+            const categorySelect = document.getElementById('categoryFilter');
+
+            const debouncedFilter = debounce(handleFilterEvents, 250);
+            searchInput.addEventListener('input', debouncedFilter);
+            categorySelect.addEventListener('change', debouncedFilter);
+
+            // Accessibility: allow Enter on search to focus first result
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const firstVisible = document.querySelector('.event-item:not([style*="display: none"])');
+                    if (firstVisible) firstVisible.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+
+            // Enhance register buttons: delegate click
+            document.getElementById('eventsContainer').addEventListener('click', (e) => {
+                const registerBtn = e.target.closest('[data-action="register"]');
+                if (registerBtn) {
+                    const eventId = registerBtn.dataset.eventId;
+                    registerForEvent(eventId);
+                }
+
+                const detailsBtn = e.target.closest('[data-action="details"]');
+                if (detailsBtn) {
+                    const eventId = detailsBtn.dataset.eventId;
+                    viewEventDetails(eventId);
+                }
+            });
         });
-        
-        function filterEvents() {
-            const searchTerm = $('#searchEvents').val().toLowerCase();
-            const selectedCategory = $('#categoryFilter').val();
-            
-            $('.event-item').each(function() {
-                const eventTitle = $(this).find('.event-title').text().toLowerCase();
-                const eventCategory = $(this).data('category');
-                const eventDescription = $(this).find('.event-description').text().toLowerCase();
-                
-                const matchesSearch = eventTitle.includes(searchTerm) || eventDescription.includes(searchTerm);
+
+        function handleFilterEvents() {
+            const searchTerm = document.getElementById('searchEvents').value.trim().toLowerCase();
+            const selectedCategory = document.getElementById('categoryFilter').value;
+
+            document.querySelectorAll('.event-item').forEach(item => {
+                const titleEl = item.querySelector('.event-title-3d') || item.querySelector('h3');
+                const descEl = item.querySelector('.event-description-3d') || item.querySelector('.event-description');
+                const eventTitle = titleEl ? titleEl.textContent.toLowerCase() : '';
+                const eventDescription = descEl ? descEl.textContent.toLowerCase() : '';
+                const eventCategory = item.dataset.category || '';
+
+                const matchesSearch = !searchTerm || eventTitle.includes(searchTerm) || eventDescription.includes(searchTerm);
                 const matchesCategory = !selectedCategory || eventCategory === selectedCategory;
-                
+
                 if (matchesSearch && matchesCategory) {
-                    $(this).fadeIn();
+                    item.style.display = '';
+                    item.setAttribute('aria-hidden', 'false');
                 } else {
-                    $(this).fadeOut();
+                    item.style.display = 'none';
+                    item.setAttribute('aria-hidden', 'true');
                 }
             });
         }
-        
+
         function registerForEvent(eventId) {
             <?php if ($participant_id): ?>
-                // User is logged in, proceed with registration
+                // user logged in -> navigate to registration
                 window.location.href = `event_registration.php?event_id=${eventId}`;
             <?php else: ?>
-                // User not logged in, redirect to login
+                // prompt login
                 if (confirm('You need to login to register for events. Would you like to login now?')) {
                     window.location.href = 'plogin.php?redirect=events.php';
                 }
             <?php endif; ?>
         }
-        
-        function viewEventDetails(eventId) {
-            // Load event details via AJAX
-            $.get(`event_details.php?id=${eventId}`, function(data) {
-                $('#eventDetailsContent').html(data);
-                $('#eventDetailsModal').modal('show');
-            }).fail(function() {
-                alert('Failed to load event details. Please try again.');
-            });
-        }
-        
-        // Smooth scrolling for anchor links
-        $('a[href^="#"]').on('click', function(event) {
-            const target = $(this.getAttribute('href'));
-            if (target.length) {
-                event.preventDefault();
-                $('html, body').stop().animate({
-                    scrollTop: target.offset().top - 70
-                }, 1000);
+
+        async function viewEventDetails(eventId) {
+            const modalEl = document.getElementById('eventDetailsModal');
+            const contentEl = document.getElementById('eventDetailsContent');
+            try {
+                contentEl.innerHTML = '<div class="p-4 text-center"><i class="fas fa-spinner fa-spin fa-2x"></i> Loading...</div>';
+                // Use fetch to get details (server should provide event_details.php)
+                const res = await fetch(`event_details.php?id=${encodeURIComponent(eventId)}`);
+                if (!res.ok) throw new Error('Network response was not ok');
+                const html = await res.text();
+                contentEl.innerHTML = html;
+                // Show bootstrap modal
+                $(modalEl).modal('show');
+                // Move focus into modal for accessibility
+                modalEl.querySelector('.modal-title')?.focus();
+            } catch (err) {
+                contentEl.innerHTML = '<div class="p-4 text-danger">Failed to load event details. Please try again.</div>';
+                console.error(err);
             }
-        });
-        
-        // Add loading animation for registration buttons
-        $('.btn-register').on('click', function() {
-            const btn = $(this);
-            btn.html('<i class="fas fa-spinner fa-spin mr-2"></i>Processing...');
-            btn.prop('disabled', true);
+        }
+
+        // Smooth scrolling for anchor links (vanilla)
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('a[href^="#"]')) {
+                const target = document.querySelector(e.target.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
         });
     </script>
 </body>
