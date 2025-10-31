@@ -500,8 +500,9 @@ $csrf_token = generate_csrf_token();
             <?php if ($events_result && $events_result->num_rows > 0): ?>
                 <?php $delay = 0; ?>
                 <?php while ($event = $events_result->fetch_assoc()): ?>
+                    <?php $title_id = 'event_title_' . $event['id']; ?>
                     <div class="event-item floating-element" data-category="<?php echo $event['category']; ?>" 
-                         style="animation-delay: <?php echo $delay * 0.1; ?>s;">
+                         style="animation-delay: <?php echo $delay * 0.1; ?>s;" role="article" tabindex="0" aria-labelledby="<?php echo $title_id; ?>">
                         <div class="event-card-3d">
                             <div class="event-card-content">
                                 <div class="category-<?php echo $event['category']; ?> event-category-3d">
@@ -509,7 +510,7 @@ $csrf_token = generate_csrf_token();
                                     <?php echo ucfirst($event['category']); ?>
                                 </div>
                                 
-                                <h3 class="event-title-3d"><?php echo htmlspecialchars($event['name']); ?></h3>
+                                <h3 id="<?php echo $title_id; ?>" class="event-title-3d"><?php echo htmlspecialchars($event['name']); ?></h3>
                                 
                                 <div class="event-meta-3d">
                                     <div class="event-meta-item">
@@ -560,21 +561,21 @@ $csrf_token = generate_csrf_token();
                                 
                                 <div class="event-actions-3d">
                                     <?php if (strtotime($event['registration_deadline']) > time()): ?>
-                                        <button class="btn-register-3d glow-effect" onclick="registerForEvent(<?php echo $event['id']; ?>)">
+                                        <button class="btn-register-3d glow-effect" data-action="register" data-event-id="<?php echo $event['id']; ?>" aria-label="Register for <?php echo htmlspecialchars($event['name']); ?>">
                                             <span>
                                                 <i class="fas fa-rocket mr-2"></i>
                                                 Join Adventure
                                             </span>
                                         </button>
                                     <?php else: ?>
-                                        <button class="btn-register-3d" disabled style="opacity: 0.5;">
+                                        <button class="btn-register-3d" disabled style="opacity: 0.5;" aria-disabled="true" aria-label="Registration closed">
                                             <span>
                                                 <i class="fas fa-lock mr-2"></i>
                                                 Registration Closed
                                             </span>
                                         </button>
                                     <?php endif; ?>
-                                    <button class="btn-register-3d btn-secondary" onclick="viewEventDetails(<?php echo $event['id']; ?>)">
+                                    <button class="btn-register-3d btn-secondary" data-action="details" data-event-id="<?php echo $event['id']; ?>" aria-label="View details for <?php echo htmlspecialchars($event['name']); ?>">
                                         <span>
                                             <i class="fas fa-info-circle mr-2"></i>
                                             Details
