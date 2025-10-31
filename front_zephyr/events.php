@@ -883,6 +883,29 @@ $csrf_token = generate_csrf_token();
         if (loadMoreBtn) {
             loadMoreBtn.addEventListener('click', loadMoreEvents);
         }
+
+        // Quick smoke checks (non-blocking) to validate core features
+        (function runSmokeChecks(){
+            try {
+                const container = document.getElementById('eventsContainer');
+                const search = document.getElementById('searchEvents');
+                const category = document.getElementById('categoryFilter');
+                if (!container || !search || !category) {
+                    console.warn('Events page smoke check: missing core elements');
+                    return;
+                }
+
+                // Ensure at least one event card exists or show message in console
+                const firstEvent = container.querySelector('.event-item');
+                if (!firstEvent) {
+                    console.info('No server-rendered events found — page will use API loadMore to fetch events');
+                } else {
+                    console.info('Events page smoke check passed: found event item');
+                }
+            } catch (err) {
+                console.error('Smoke checks failed', err);
+            }
+        })();
     </script>
 </body>
 </html>
