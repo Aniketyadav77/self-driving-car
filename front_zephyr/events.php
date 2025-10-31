@@ -353,6 +353,22 @@ $csrf_token = generate_csrf_token();
                 padding: 1.5rem;
             }
         }
+        /* List view styles */
+        .list-view .grid-3d {
+            display: block;
+        }
+        .list-view .event-item {
+            display: block !important;
+            margin-bottom: 1rem;
+        }
+        .list-view .event-card-3d {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .list-view .event-card-content {
+            flex: 1;
+        }
     </style>
 </head>
 <body class="glass">
@@ -414,6 +430,10 @@ $csrf_token = generate_csrf_token();
                 </div>
             </div>
         </div>
+
+        <div class="text-center mt-4">
+            <button class="btn-register-3d" id="loadMoreBtn" data-page="1">Load more events</button>
+        </div>
     </nav>
     
     <!-- Modern 3D Hero Section -->
@@ -461,6 +481,18 @@ $csrf_token = generate_csrf_token();
                     </div>
                 </div>
             </div>
+            <div class="row mt-3">
+                <div class="col-12 d-flex justify-content-end">
+                    <div class="btn-group" role="group" aria-label="View toggle">
+                        <button class="btn btn-sm btn-outline-light" id="gridViewBtn" aria-pressed="true" title="Grid view">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-light" id="listViewBtn" aria-pressed="false" title="List view">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <!-- Modern 3D Events Grid -->
@@ -468,8 +500,9 @@ $csrf_token = generate_csrf_token();
             <?php if ($events_result && $events_result->num_rows > 0): ?>
                 <?php $delay = 0; ?>
                 <?php while ($event = $events_result->fetch_assoc()): ?>
+                    <?php $title_id = 'event_title_' . $event['id']; ?>
                     <div class="event-item floating-element" data-category="<?php echo $event['category']; ?>" 
-                         style="animation-delay: <?php echo $delay * 0.1; ?>s;">
+                         style="animation-delay: <?php echo $delay * 0.1; ?>s;" role="article" tabindex="0" aria-labelledby="<?php echo $title_id; ?>">
                         <div class="event-card-3d">
                             <div class="event-card-content">
                                 <div class="category-<?php echo $event['category']; ?> event-category-3d">
@@ -477,7 +510,7 @@ $csrf_token = generate_csrf_token();
                                     <?php echo ucfirst($event['category']); ?>
                                 </div>
                                 
-                                <h3 class="event-title-3d"><?php echo htmlspecialchars($event['name']); ?></h3>
+                                <h3 id="<?php echo $title_id; ?>" class="event-title-3d"><?php echo htmlspecialchars($event['name']); ?></h3>
                                 
                                 <div class="event-meta-3d">
                                     <div class="event-meta-item">
@@ -528,21 +561,21 @@ $csrf_token = generate_csrf_token();
                                 
                                 <div class="event-actions-3d">
                                     <?php if (strtotime($event['registration_deadline']) > time()): ?>
-                                        <button class="btn-register-3d glow-effect" onclick="registerForEvent(<?php echo $event['id']; ?>)">
+                                        <button class="btn-register-3d glow-effect" data-action="register" data-event-id="<?php echo $event['id']; ?>" aria-label="Register for <?php echo htmlspecialchars($event['name']); ?>">
                                             <span>
                                                 <i class="fas fa-rocket mr-2"></i>
                                                 Join Adventure
                                             </span>
                                         </button>
                                     <?php else: ?>
-                                        <button class="btn-register-3d" disabled style="opacity: 0.5;">
+                                        <button class="btn-register-3d" disabled style="opacity: 0.5;" aria-disabled="true" aria-label="Registration closed">
                                             <span>
                                                 <i class="fas fa-lock mr-2"></i>
                                                 Registration Closed
                                             </span>
                                         </button>
                                     <?php endif; ?>
-                                    <button class="btn-register-3d btn-secondary" onclick="viewEventDetails(<?php echo $event['id']; ?>)">
+                                    <button class="btn-register-3d btn-secondary" data-action="details" data-event-id="<?php echo $event['id']; ?>" aria-label="View details for <?php echo htmlspecialchars($event['name']); ?>">
                                         <span>
                                             <i class="fas fa-info-circle mr-2"></i>
                                             Details
@@ -596,71 +629,283 @@ $csrf_token = generate_csrf_token();
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        // Search and filter functionality
-        $(document).ready(function() {
-            $('#searchEvents').on('keyup', filterEvents);
-            $('#categoryFilter').on('change', filterEvents);
-        });
-        
-        function filterEvents() {
-            const searchTerm = $('#searchEvents').val().toLowerCase();
-            const selectedCategory = $('#categoryFilter').val();
-            
-            $('.event-item').each(function() {
-                const eventTitle = $(this).find('.event-title').text().toLowerCase();
-                const eventCategory = $(this).data('category');
-                const eventDescription = $(this).find('.event-description').text().toLowerCase();
-                
-                const matchesSearch = eventTitle.includes(searchTerm) || eventDescription.includes(searchTerm);
-                const matchesCategory = !selectedCategory || eventCategory === selectedCategory;
-                
-                if (matchesSearch && matchesCategory) {
-                    $(this).fadeIn();
+        // Utility: debounce
+        function debounce(fn, delay) {
+            let t;
+            return function (...args) {
+                clearTimeout(t);
+                t = setTimeout(() => fn.apply(this, args), delay);
+            };
+        }
+
+        // DOM-ready equivalent
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchEvents');
+            const categorySelect = document.getElementById('categoryFilter');
+
+            const debouncedFilter = debounce(handleFilterEvents, 250);
+            searchInput.addEventListener('input', debouncedFilter);
+            categorySelect.addEventListener('change', debouncedFilter);
+
+            // View toggle (grid / list)
+            const gridBtn = document.getElementById('gridViewBtn');
+            const listBtn = document.getElementById('listViewBtn');
+            const containerWrapper = document.querySelector('.container');
+            const eventsWrapper = document.getElementById('eventsContainer');
+
+            function setView(view) {
+                if (view === 'list') {
+                    document.body.classList.add('list-view');
+                    gridBtn.setAttribute('aria-pressed', 'false');
+                    listBtn.setAttribute('aria-pressed', 'true');
                 } else {
-                    $(this).fadeOut();
+                    document.body.classList.remove('list-view');
+                    gridBtn.setAttribute('aria-pressed', 'true');
+                    listBtn.setAttribute('aria-pressed', 'false');
+                }
+                localStorage.setItem('events_view', view);
+            }
+
+            // Initialize from preference
+            const pref = localStorage.getItem('events_view') || 'grid';
+            setView(pref);
+
+            gridBtn.addEventListener('click', () => setView('grid'));
+            listBtn.addEventListener('click', () => setView('list'));
+
+            // Accessibility: allow Enter on search to focus first result
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const firstVisible = document.querySelector('.event-item:not([style*="display: none"])');
+                    if (firstVisible) firstVisible.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+
+            // Enhance register buttons: delegate click
+            document.getElementById('eventsContainer').addEventListener('click', (e) => {
+                const registerBtn = e.target.closest('[data-action="register"]');
+                if (registerBtn) {
+                    const eventId = registerBtn.dataset.eventId;
+                    registerForEvent(eventId);
+                }
+
+                const detailsBtn = e.target.closest('[data-action="details"]');
+                if (detailsBtn) {
+                    const eventId = detailsBtn.dataset.eventId;
+                    viewEventDetails(eventId);
+                }
+            });
+        });
+
+        function handleFilterEvents() {
+            const searchTerm = document.getElementById('searchEvents').value.trim().toLowerCase();
+            const selectedCategory = document.getElementById('categoryFilter').value;
+
+            document.querySelectorAll('.event-item').forEach(item => {
+                const titleEl = item.querySelector('.event-title-3d') || item.querySelector('h3');
+                const descEl = item.querySelector('.event-description-3d') || item.querySelector('.event-description');
+                const eventTitle = titleEl ? titleEl.textContent.toLowerCase() : '';
+                const eventDescription = descEl ? descEl.textContent.toLowerCase() : '';
+                const eventCategory = item.dataset.category || '';
+
+                const matchesSearch = !searchTerm || eventTitle.includes(searchTerm) || eventDescription.includes(searchTerm);
+                const matchesCategory = !selectedCategory || eventCategory === selectedCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    item.style.display = '';
+                    item.setAttribute('aria-hidden', 'false');
+                } else {
+                    item.style.display = 'none';
+                    item.setAttribute('aria-hidden', 'true');
                 }
             });
         }
-        
+
         function registerForEvent(eventId) {
             <?php if ($participant_id): ?>
-                // User is logged in, proceed with registration
+                // user logged in -> navigate to registration
                 window.location.href = `event_registration.php?event_id=${eventId}`;
             <?php else: ?>
-                // User not logged in, redirect to login
+                // prompt login
                 if (confirm('You need to login to register for events. Would you like to login now?')) {
                     window.location.href = 'plogin.php?redirect=events.php';
                 }
             <?php endif; ?>
         }
-        
-        function viewEventDetails(eventId) {
-            // Load event details via AJAX
-            $.get(`event_details.php?id=${eventId}`, function(data) {
-                $('#eventDetailsContent').html(data);
-                $('#eventDetailsModal').modal('show');
-            }).fail(function() {
-                alert('Failed to load event details. Please try again.');
-            });
+
+        async function viewEventDetails(eventId) {
+            const modalEl = document.getElementById('eventDetailsModal');
+            const contentEl = document.getElementById('eventDetailsContent');
+            try {
+                contentEl.innerHTML = '<div class="p-4 text-center"><i class="fas fa-spinner fa-spin fa-2x"></i> Loading...</div>';
+                // Use fetch to get details (server should provide event_details.php)
+                const res = await fetch(`event_details.php?id=${encodeURIComponent(eventId)}`);
+                if (!res.ok) throw new Error('Network response was not ok');
+                const html = await res.text();
+                contentEl.innerHTML = html;
+                // Show bootstrap modal
+                $(modalEl).modal('show');
+                // Move focus into modal for accessibility
+                modalEl.querySelector('.modal-title')?.focus();
+            } catch (err) {
+                contentEl.innerHTML = '<div class="p-4 text-danger">Failed to load event details. Please try again.</div>';
+                console.error(err);
+            }
         }
-        
-        // Smooth scrolling for anchor links
-        $('a[href^="#"]').on('click', function(event) {
-            const target = $(this.getAttribute('href'));
-            if (target.length) {
-                event.preventDefault();
-                $('html, body').stop().animate({
-                    scrollTop: target.offset().top - 70
-                }, 1000);
+
+        // Smooth scrolling for anchor links (vanilla)
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('a[href^="#"]')) {
+                const target = document.querySelector(e.target.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             }
         });
-        
-        // Add loading animation for registration buttons
-        $('.btn-register').on('click', function() {
-            const btn = $(this);
-            btn.html('<i class="fas fa-spinner fa-spin mr-2"></i>Processing...');
-            btn.prop('disabled', true);
-        });
+
+        // Pagination / Load more via events_api.php
+        let currentPage = 1;
+        const limit = 6; // items per page when loading more
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+        function renderEvent(event) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'event-item floating-element';
+            wrapper.dataset.category = event.category || '';
+
+            const card = document.createElement('div');
+            card.className = 'event-card-3d';
+
+            const content = document.createElement('div');
+            content.className = 'event-card-content';
+
+            const category = document.createElement('div');
+            category.className = `category-${event.category} event-category-3d`;
+            category.innerHTML = `<i class="fas fa-star mr-2"></i>${(event.category||'').charAt(0).toUpperCase()+ (event.category||'').slice(1)}`;
+
+            const title = document.createElement('h3');
+            title.className = 'event-title-3d';
+            title.textContent = event.name || '';
+
+            const meta = document.createElement('div');
+            meta.className = 'event-meta-3d';
+            meta.innerHTML = `
+                <div class="event-meta-item"><i class="fas fa-calendar text-primary"></i><span>${new Date(event.start_date).toLocaleDateString()}</span></div>
+                <div class="event-meta-item"><i class="fas fa-clock text-cyan"></i><span>${new Date(event.start_date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span></div>
+                ${event.venue ? `<div class="event-meta-item"><i class="fas fa-map-marker-alt text-pink"></i><span>${event.venue}</span></div>` : ''}
+            `;
+
+            const desc = document.createElement('div');
+            desc.className = 'event-description-3d';
+            desc.innerHTML = (event.description || '').substring(0, 150).replace(/\n/g, '<br>') + ((event.description||'').length>150?'<span class="text-muted">...</span>':'');
+
+            const details = document.createElement('div');
+            details.className = 'event-details-3d';
+            details.innerHTML = `
+                <div class="event-stats">
+                    ${event.max_participants?`<div class="stat-item"><div class="stat-value">${event.max_participants}</div><div class="stat-label">Max Seats</div></div>`:''}
+                    <div class="stat-item"><div class="stat-value">${event.registration_fee>0?('₹'+event.registration_fee):'FREE'}</div><div class="stat-label">Entry Fee</div></div>
+                    <div class="stat-item"><div class="stat-value">${new Date(event.registration_deadline).toLocaleDateString()}</div><div class="stat-label">Deadline</div></div>
+                </div>
+            `;
+
+            const actions = document.createElement('div');
+            actions.className = 'event-actions-3d';
+            const regBtn = document.createElement('button');
+            regBtn.className = 'btn-register-3d glow-effect';
+            regBtn.dataset.action = 'register';
+            regBtn.dataset.eventId = event.id;
+            if (new Date(event.registration_deadline) <= new Date()) {
+                regBtn.disabled = true;
+                regBtn.style.opacity = 0.5;
+                regBtn.innerHTML = '<span><i class="fas fa-lock mr-2"></i>Registration Closed</span>';
+            } else {
+                regBtn.innerHTML = '<span><i class="fas fa-rocket mr-2"></i>Join Adventure</span>';
+            }
+            const infoBtn = document.createElement('button');
+            infoBtn.className = 'btn-register-3d btn-secondary';
+            infoBtn.dataset.action = 'details';
+            infoBtn.dataset.eventId = event.id;
+            infoBtn.innerHTML = '<span><i class="fas fa-info-circle mr-2"></i>Details</span>';
+
+            actions.appendChild(regBtn);
+            actions.appendChild(infoBtn);
+
+            content.appendChild(category);
+            content.appendChild(title);
+            content.appendChild(meta);
+            content.appendChild(desc);
+            content.appendChild(details);
+            content.appendChild(actions);
+
+            card.appendChild(content);
+            wrapper.appendChild(card);
+
+            return wrapper;
+        }
+
+        async function loadMoreEvents() {
+            loadMoreBtn.disabled = true;
+            loadMoreBtn.textContent = 'Loading...';
+            const pageToLoad = parseInt(loadMoreBtn.dataset.page || '1') + 1;
+            const q = document.getElementById('searchEvents').value.trim();
+            const category = document.getElementById('categoryFilter').value;
+            try {
+                const res = await fetch(`events_api.php?page=${pageToLoad}&limit=${limit}&q=${encodeURIComponent(q)}&category=${encodeURIComponent(category)}`);
+                if (!res.ok) throw new Error('Network error');
+                const json = await res.json();
+                if (json.events && json.events.length) {
+                    json.events.forEach(ev => {
+                        const node = renderEvent(ev);
+                        document.getElementById('eventsContainer').appendChild(node);
+                    });
+                    loadMoreBtn.dataset.page = pageToLoad;
+                    // if we've reached the last page
+                    const totalPages = Math.ceil(json.total / json.limit);
+                    if (pageToLoad >= totalPages) {
+                        loadMoreBtn.style.display = 'none';
+                    } else {
+                        loadMoreBtn.disabled = false;
+                        loadMoreBtn.textContent = 'Load more events';
+                    }
+                } else {
+                    loadMoreBtn.style.display = 'none';
+                }
+            } catch (err) {
+                console.error(err);
+                loadMoreBtn.disabled = false;
+                loadMoreBtn.textContent = 'Load more events';
+            }
+        }
+
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', loadMoreEvents);
+        }
+
+        // Quick smoke checks (non-blocking) to validate core features
+        (function runSmokeChecks(){
+            try {
+                const container = document.getElementById('eventsContainer');
+                const search = document.getElementById('searchEvents');
+                const category = document.getElementById('categoryFilter');
+                if (!container || !search || !category) {
+                    console.warn('Events page smoke check: missing core elements');
+                    return;
+                }
+
+                // Ensure at least one event card exists or show message in console
+                const firstEvent = container.querySelector('.event-item');
+                if (!firstEvent) {
+                    console.info('No server-rendered events found — page will use API loadMore to fetch events');
+                } else {
+                    console.info('Events page smoke check passed: found event item');
+                }
+            } catch (err) {
+                console.error('Smoke checks failed', err);
+            }
+        })();
     </script>
 </body>
 </html>
