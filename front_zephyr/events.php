@@ -430,6 +430,10 @@ $csrf_token = generate_csrf_token();
                 </div>
             </div>
         </div>
+
+        <div class="text-center mt-4">
+            <button class="btn-register-3d" id="loadMoreBtn" data-page="1">Load more events</button>
+        </div>
     </nav>
     
     <!-- Modern 3D Hero Section -->
@@ -758,6 +762,125 @@ $csrf_token = generate_csrf_token();
                 }
             }
         });
+
+        // Pagination / Load more via events_api.php
+        let currentPage = 1;
+        const limit = 6; // items per page when loading more
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+        function renderEvent(event) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'event-item floating-element';
+            wrapper.dataset.category = event.category || '';
+
+            const card = document.createElement('div');
+            card.className = 'event-card-3d';
+
+            const content = document.createElement('div');
+            content.className = 'event-card-content';
+
+            const category = document.createElement('div');
+            category.className = `category-${event.category} event-category-3d`;
+            category.innerHTML = `<i class="fas fa-star mr-2"></i>${(event.category||'').charAt(0).toUpperCase()+ (event.category||'').slice(1)}`;
+
+            const title = document.createElement('h3');
+            title.className = 'event-title-3d';
+            title.textContent = event.name || '';
+
+            const meta = document.createElement('div');
+            meta.className = 'event-meta-3d';
+            meta.innerHTML = `
+                <div class="event-meta-item"><i class="fas fa-calendar text-primary"></i><span>${new Date(event.start_date).toLocaleDateString()}</span></div>
+                <div class="event-meta-item"><i class="fas fa-clock text-cyan"></i><span>${new Date(event.start_date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span></div>
+                ${event.venue ? `<div class="event-meta-item"><i class="fas fa-map-marker-alt text-pink"></i><span>${event.venue}</span></div>` : ''}
+            `;
+
+            const desc = document.createElement('div');
+            desc.className = 'event-description-3d';
+            desc.innerHTML = (event.description || '').substring(0, 150).replace(/\n/g, '<br>') + ((event.description||'').length>150?'<span class="text-muted">...</span>':'');
+
+            const details = document.createElement('div');
+            details.className = 'event-details-3d';
+            details.innerHTML = `
+                <div class="event-stats">
+                    ${event.max_participants?`<div class="stat-item"><div class="stat-value">${event.max_participants}</div><div class="stat-label">Max Seats</div></div>`:''}
+                    <div class="stat-item"><div class="stat-value">${event.registration_fee>0?('₹'+event.registration_fee):'FREE'}</div><div class="stat-label">Entry Fee</div></div>
+                    <div class="stat-item"><div class="stat-value">${new Date(event.registration_deadline).toLocaleDateString()}</div><div class="stat-label">Deadline</div></div>
+                </div>
+            `;
+
+            const actions = document.createElement('div');
+            actions.className = 'event-actions-3d';
+            const regBtn = document.createElement('button');
+            regBtn.className = 'btn-register-3d glow-effect';
+            regBtn.dataset.action = 'register';
+            regBtn.dataset.eventId = event.id;
+            if (new Date(event.registration_deadline) <= new Date()) {
+                regBtn.disabled = true;
+                regBtn.style.opacity = 0.5;
+                regBtn.innerHTML = '<span><i class="fas fa-lock mr-2"></i>Registration Closed</span>';
+            } else {
+                regBtn.innerHTML = '<span><i class="fas fa-rocket mr-2"></i>Join Adventure</span>';
+            }
+            const infoBtn = document.createElement('button');
+            infoBtn.className = 'btn-register-3d btn-secondary';
+            infoBtn.dataset.action = 'details';
+            infoBtn.dataset.eventId = event.id;
+            infoBtn.innerHTML = '<span><i class="fas fa-info-circle mr-2"></i>Details</span>';
+
+            actions.appendChild(regBtn);
+            actions.appendChild(infoBtn);
+
+            content.appendChild(category);
+            content.appendChild(title);
+            content.appendChild(meta);
+            content.appendChild(desc);
+            content.appendChild(details);
+            content.appendChild(actions);
+
+            card.appendChild(content);
+            wrapper.appendChild(card);
+
+            return wrapper;
+        }
+
+        async function loadMoreEvents() {
+            loadMoreBtn.disabled = true;
+            loadMoreBtn.textContent = 'Loading...';
+            const pageToLoad = parseInt(loadMoreBtn.dataset.page || '1') + 1;
+            const q = document.getElementById('searchEvents').value.trim();
+            const category = document.getElementById('categoryFilter').value;
+            try {
+                const res = await fetch(`events_api.php?page=${pageToLoad}&limit=${limit}&q=${encodeURIComponent(q)}&category=${encodeURIComponent(category)}`);
+                if (!res.ok) throw new Error('Network error');
+                const json = await res.json();
+                if (json.events && json.events.length) {
+                    json.events.forEach(ev => {
+                        const node = renderEvent(ev);
+                        document.getElementById('eventsContainer').appendChild(node);
+                    });
+                    loadMoreBtn.dataset.page = pageToLoad;
+                    // if we've reached the last page
+                    const totalPages = Math.ceil(json.total / json.limit);
+                    if (pageToLoad >= totalPages) {
+                        loadMoreBtn.style.display = 'none';
+                    } else {
+                        loadMoreBtn.disabled = false;
+                        loadMoreBtn.textContent = 'Load more events';
+                    }
+                } else {
+                    loadMoreBtn.style.display = 'none';
+                }
+            } catch (err) {
+                console.error(err);
+                loadMoreBtn.disabled = false;
+                loadMoreBtn.textContent = 'Load more events';
+            }
+        }
+
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', loadMoreEvents);
+        }
     </script>
 </body>
 </html>
