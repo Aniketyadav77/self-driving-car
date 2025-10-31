@@ -353,6 +353,22 @@ $csrf_token = generate_csrf_token();
                 padding: 1.5rem;
             }
         }
+        /* List view styles */
+        .list-view .grid-3d {
+            display: block;
+        }
+        .list-view .event-item {
+            display: block !important;
+            margin-bottom: 1rem;
+        }
+        .list-view .event-card-3d {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .list-view .event-card-content {
+            flex: 1;
+        }
     </style>
 </head>
 <body class="glass">
@@ -458,6 +474,18 @@ $csrf_token = generate_csrf_token();
                             <option value="sports">⚽ Sports</option>
                             <option value="tech">💻 Technology</option>
                         </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12 d-flex justify-content-end">
+                    <div class="btn-group" role="group" aria-label="View toggle">
+                        <button class="btn btn-sm btn-outline-light" id="gridViewBtn" aria-pressed="true" title="Grid view">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-light" id="listViewBtn" aria-pressed="false" title="List view">
+                            <i class="fas fa-list"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -612,6 +640,32 @@ $csrf_token = generate_csrf_token();
             const debouncedFilter = debounce(handleFilterEvents, 250);
             searchInput.addEventListener('input', debouncedFilter);
             categorySelect.addEventListener('change', debouncedFilter);
+
+            // View toggle (grid / list)
+            const gridBtn = document.getElementById('gridViewBtn');
+            const listBtn = document.getElementById('listViewBtn');
+            const containerWrapper = document.querySelector('.container');
+            const eventsWrapper = document.getElementById('eventsContainer');
+
+            function setView(view) {
+                if (view === 'list') {
+                    document.body.classList.add('list-view');
+                    gridBtn.setAttribute('aria-pressed', 'false');
+                    listBtn.setAttribute('aria-pressed', 'true');
+                } else {
+                    document.body.classList.remove('list-view');
+                    gridBtn.setAttribute('aria-pressed', 'true');
+                    listBtn.setAttribute('aria-pressed', 'false');
+                }
+                localStorage.setItem('events_view', view);
+            }
+
+            // Initialize from preference
+            const pref = localStorage.getItem('events_view') || 'grid';
+            setView(pref);
+
+            gridBtn.addEventListener('click', () => setView('grid'));
+            listBtn.addEventListener('click', () => setView('list'));
 
             // Accessibility: allow Enter on search to focus first result
             searchInput.addEventListener('keydown', (e) => {
